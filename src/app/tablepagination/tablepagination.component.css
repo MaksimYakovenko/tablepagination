@@ -1,0 +1,34 @@
+.table-with-border {
+  border-collapse: collapse;
+  width: 100%;
+  box-sizing: border-box;
+  table-layout: fixed;
+}
+
+.table-with-border th, .table-with-border td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.table-with-border tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th[columnResize], td[columnResize] {
+  position: relative;
+}
+
+th[columnResize]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+}
+.table-container.mat-elevation-z8 {
+  overflow-x: auto;
+  max-width: 100%;
+}
