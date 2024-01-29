@@ -5,6 +5,12 @@
   table-layout: fixed;
 }
 
+.table-with-border th {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+}
+
 .table-with-border th, .table-with-border td {
   border: 1px solid #dddddd;
   text-align: left;
