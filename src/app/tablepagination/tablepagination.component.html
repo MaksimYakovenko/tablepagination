@@ -2,23 +2,23 @@
   <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" class="table-with-border">
 
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef columnResize> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef columnResize> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef columnResize> Name </th>
+          <th mat-header-cell *matHeaderCellDef columnResize> Назва заяви </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="weight">
-          <th mat-header-cell *matHeaderCellDef columnResize> Weight </th>
-          <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+        <ng-container matColumnDef="costs">
+          <th mat-header-cell *matHeaderCellDef columnResize> Витрати </th>
+          <td mat-cell *matCellDef="let element"> {{element.costs}} </td>
         </ng-container>
 
         <ng-container matColumnDef="symbol">
-          <th mat-header-cell *matHeaderCellDef columnResize> Symbol </th>
+          <th mat-header-cell *matHeaderCellDef columnResize> Позначення </th>
           <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
         </ng-container>
 

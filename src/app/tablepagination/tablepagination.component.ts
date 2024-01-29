@@ -21,7 +21,7 @@ import {ColumnResizeDirective} from "./tablepagination.directive";
 
 export class TablepaginationComponent extends MatPaginatorIntl implements AfterViewInit {
   title = 'tablepagination';
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['id', 'name', 'costs', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   override itemsPerPageLabel = 'Заяв на сторінці';
@@ -44,17 +44,17 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 }
 export interface PeriodicElement {
   name: string;
-  position: number;
-  weight: number;
+  id: number;
+  costs: number;
   symbol: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
 for (let i = 1; i <= 2000; i++) {
   ELEMENT_DATA.push({
-    position: i,
+    id: i,
     name: `Element ${i}`,
-    weight: Math.random() * 100,
+    costs: Math.random() * 100,
     symbol: `El${i}`,
   });
 }
