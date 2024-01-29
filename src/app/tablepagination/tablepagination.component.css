@@ -8,7 +8,6 @@
 .table-with-border th {
   position: sticky;
   top: 0;
-  background-color: #ffffff;
 }
 
 .table-with-border th, .table-with-border td {
@@ -37,4 +36,9 @@ th[columnResize]::after {
 .table-container.mat-elevation-z8 {
   overflow-x: auto;
   max-width: 100%;
+}
+
+mat-paginator {
+  position: sticky;
+  bottom: 0;
 }
