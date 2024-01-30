@@ -6,7 +6,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 @Component({
   // imports: [RouterOutlet, MatTableModule, MatPaginatorModule],
   imports: [
-    RouterOutlet
+    RouterOutlet,
   ],
   selector: 'app-root',
   standalone: true,

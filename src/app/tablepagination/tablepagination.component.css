@@ -1,3 +1,14 @@
+.toolbar-logo {
+  height: 105px;
+  width: auto;
+  margin-right: 10px;
+}
+
+.toolbar-name {
+  margin-left: 10px;
+}
+
+
 .table-with-border {
   border-collapse: collapse;
   width: 100%;
@@ -7,7 +18,8 @@
 
 .table-with-border th {
   position: sticky;
-  top: 0;
+  top: 56px;
+  z-index: 1;
 }
 
 .table-with-border th, .table-with-border td {
@@ -17,7 +29,11 @@
 }
 
 .table-with-border tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--even-row-bg-color);
+}
+
+.table-with-border tr:nth-child(odd) {
+  background-color: var(--odd-row-bg-color);
 }
 
 th[columnResize], td[columnResize] {
@@ -42,3 +58,119 @@ mat-paginator {
   position: sticky;
   bottom: 0;
 }
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  z-index: 2;
+
+}
+
+.github-icon {
+  padding: 0 14px;
+  color: #f2f2f2;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem 0;
+}
+
+footer .row-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 0.7;
+}
+
+footer .row-container > div {
+  text-align: center;
+}
+
+.footer-social-links {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.footer-social-links li {
+  border: 2px solid #fff;
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  transition: border-color 0.3s;
+}
+
+.footer-social-links li:hover {
+  border-color: cyan;
+}
+
+.footer-social-links li:hover i {
+  color: cyan;
+}
+
+.footer-social-links a {
+  color: #fff;
+}
+
+.footer-social-links li:hover a {
+  border-color: cyan;
+}
+
+.izibank-logo {
+  height: 100px;
+  width: auto;
+  margin-left: 35px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.sportbank-logo {
+  height: 50px;
+  width: auto;
+  margin-left: 25px;
+}
+
+.fund-logo {
+  height: 70px;
+  width: auto;
+  margin-left: 30px;
+
+}
+
+.licence {
+  font-size: 12px;
+  line-height: 0.4;
+}
+
+.funds {
+  font-size: 13px;
+  line-height: 0.4;
+  margin-left: 25px;
+}
+
+header {
+  height: 60px;
+}
+
+main {
+  padding-top: calc(64px + 15px);
+  margin-top: -34px;
+}
+

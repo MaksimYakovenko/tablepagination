@@ -1,0 +1,40 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$my-primary-light: mat.define-palette(mat.$deep-purple-palette);
+$my-accent-light: mat.define-palette(mat.$amber-palette);
+$my-warn-light: mat.define-palette(mat.$red-palette);
+
+$my-theme-light: mat.define-light-theme((
+  color: (
+    primary: $my-primary-light,
+    accent: $my-accent-light,
+    warn: $my-warn-light,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+$my-primary-dark: mat.define-palette(mat.$purple-palette);
+$my-accent-dark: mat.define-palette(mat.$green-palette);
+$my-warn-dark: mat.define-palette(mat.$red-palette);
+
+$my-theme-dark: mat.define-dark-theme((
+  color: (
+    primary: $my-primary-dark,
+    accent: $my-accent-dark,
+    warn: $my-warn-dark,
+  )
+));
+
+.theme-dark {
+  @include mat.all-component-colors($my-theme-dark);
+  --even-row-bg-color: #373737;
+  --odd-row-bg-color: #282828;
+}
+
+.theme-light {
+  @include mat.all-component-colors($my-theme-light);
+  --even-row-bg-color: #f2f2f2;
+  --odd-row-bg-color: #ffffff;
+}
