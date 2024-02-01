@@ -4,7 +4,10 @@
       <img class="toolbar-logo" [src]="'assets/images/logo.png'" alt="image">
       <span class="toolbar-name">Максим Яковенко</span>
       <span class="spacer"></span>
-      <mat-slide-toggle [formControl]="toggleControl">Dark Mode</mat-slide-toggle>
+      <div class="theme-toggle-container">
+        <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">
+        <label>Темна тема</label>
+      </div>
       <a href="https://github.com/MaksimYakovenko"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
     </mat-toolbar-row>
   </mat-toolbar>

@@ -165,12 +165,60 @@ footer .row-container > div {
   margin-left: 25px;
 }
 
-header {
-  height: 60px;
+main {
+  padding-top: calc(64px + 20px);
+  margin-top: -259px;
 }
 
-main {
-  padding-top: calc(64px + 15px);
-  margin-top: -34px;
+.ThemeToggle {
+  appearance: none;
+  width: 50px; /* Увеличим ширину для более крупного вида */
+  height: 26px; /* Увеличим высоту для более крупного вида */
+  background-color: #ddd;
+  border-radius: 20px; /* Увеличим радиус для более круглого вида */
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 150px;
+}
+
+/* Стили для визуального отображения переключателя */
+.ThemeToggle::after {
+  content: '';
+  width: 22px; /* Уменьшим размер кнопки для более круглого вида */
+  height: 22px; /* Уменьшим размер кнопки для более круглого вида */
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Добавим небольшую тень для визуальной глубины */
+  transition: left 0.3s ease;
+}
+
+/* Стили для переключателя, когда он отмечен как выбранный */
+.ThemeToggle:checked {
+  background-color: #4CAF50; /* Изменяем цвет фона при включенном состоянии */
+}
+
+/* Стили для визуального отображения переключателя, когда он отмечен как выбранный */
+.ThemeToggle:checked::after {
+  left: calc(100% - 24px); /* Сдвигаем кнопку вправо при включенном состоянии */
+}
+header {
+  height: 280px;
+}
+header span {
+  font-size: 23px;
+  font-family: "Times New Roman";
+}
+
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+}
+
+.ThemeToggle {
+  margin-right: 8px;
 }
 

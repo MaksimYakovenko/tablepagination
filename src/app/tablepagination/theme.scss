@@ -31,10 +31,16 @@ $my-theme-dark: mat.define-dark-theme((
   @include mat.all-component-colors($my-theme-dark);
   --even-row-bg-color: #373737;
   --odd-row-bg-color: #282828;
+  header mat-toolbar {
+    background-color: #9c27b0 !important;
+  }
 }
 
 .theme-light {
   @include mat.all-component-colors($my-theme-light);
   --even-row-bg-color: #f2f2f2;
   --odd-row-bg-color: #ffffff;
+  header mat-toolbar {
+    background-color: #673ab7 !important;
+  }
 }
