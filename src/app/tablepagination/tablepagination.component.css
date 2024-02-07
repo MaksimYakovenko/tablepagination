@@ -192,18 +192,16 @@ main {
   position: absolute;
   top: 2px;
   left: 2px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Добавим небольшую тень для визуальной глубины */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: left 0.3s ease;
 }
 
-/* Стили для переключателя, когда он отмечен как выбранный */
 .ThemeToggle:checked {
-  background-color: #4CAF50; /* Изменяем цвет фона при включенном состоянии */
+  background-color: #4CAF50;
 }
 
-/* Стили для визуального отображения переключателя, когда он отмечен как выбранный */
 .ThemeToggle:checked::after {
-  left: calc(100% - 24px); /* Сдвигаем кнопку вправо при включенном состоянии */
+  left: calc(100% - 24px);
 }
 header {
   height: 280px;
@@ -222,3 +220,15 @@ header span {
   margin-right: 8px;
 }
 
+
+.mat-column-id {
+  width: 50px;
+}
+
+.mat-column-date {
+  width: 260px;
+}
+
+.mat-column-date mat-label {
+  margin-bottom: 20px;
+}
