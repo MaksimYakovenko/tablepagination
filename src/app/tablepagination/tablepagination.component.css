@@ -40,7 +40,7 @@ th[columnResize], td[columnResize] {
   position: relative;
 }
 
-th[columnResize]::after {
+th[columnResize]::after, td[columnResize]::after {
   content: '';
   position: absolute;
   top: 0;

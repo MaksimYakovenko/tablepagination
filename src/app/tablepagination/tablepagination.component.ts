@@ -19,6 +19,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatRadioModule} from "@angular/material/radio";
 import {CommonModule} from "@angular/common";
 import {pipe} from "rxjs";
+import {TranslateHeadersPipe} from "./translate-headers.pipe";
 
 
 @Component({
@@ -41,7 +42,7 @@ import {pipe} from "rxjs";
     MatInputModule,
     MatFormFieldModule,
     MatRadioModule,
-    CommonModule
+    CommonModule, TranslateHeadersPipe
   ],
   templateUrl: './tablepagination.component.html',
   styleUrl: './tablepagination.component.css',
@@ -56,6 +57,8 @@ import {pipe} from "rxjs";
 export class TablepaginationComponent extends MatPaginatorIntl implements AfterViewInit, OnInit {
   title = 'tablepagination';
   originalElements: any[] = [];
+  element: any;
+  column: any;
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -143,6 +146,7 @@ export interface PeriodicElement {
   symbol: string;
   date: string;
   agreed: string;
+  isEdit: false;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
@@ -157,5 +161,6 @@ for (let i = 1; i <= 2000; i++) {
     symbol: `El${i}`,
     date: formattedDate,
     agreed: agreedStatus,
+    isEdit: false,
   });
 }
