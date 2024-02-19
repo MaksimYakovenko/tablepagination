@@ -113,9 +113,14 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
   }
 
-  toggleEditMode(element: any) {
-    element.isEdit = !element.isEdit;
+  toggleEditMode(element: any, field: string) {
+    element.isEdit = field;
   }
+
+
+  onEdit(item: any) {
+    item.editFieldName = item;
+}
 
   updateAgreedStatus(event: any, element: PeriodicElement) {
     element.agreed = event.value;
@@ -126,6 +131,18 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     Object.assign(element, originalElement);
     element.isEdit = false;
   }
+
+  save(item: any) {
+    item.editFieldName = '';
+  }
+
+  close(element: any) {
+    if (!element.saved) {
+      element.editFieldName = element.originalValue;
+    }
+    element.isEdit = false;
+  }
+
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -147,6 +164,7 @@ export interface PeriodicElement {
   date: string;
   agreed: string;
   isEdit: false;
+  editFieldName: '';
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
@@ -162,5 +180,6 @@ for (let i = 1; i <= 2000; i++) {
     date: formattedDate,
     agreed: agreedStatus,
     isEdit: false,
+    editFieldName: '',
   });
 }

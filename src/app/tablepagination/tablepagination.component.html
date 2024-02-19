@@ -16,92 +16,167 @@
 <main>
   <div class="table-container">
     <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" class="table-with-border" matSort (matSortChange)="announceSortChange($event)">
-          <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
-            <ng-container>
-              <th mat-header-cell columnResize *matHeaderCellDef mat-sort-header sortActionDescription="Sort by topic" style="min-width: 150px;"> {{ column | translateHeaders }} </th>
-              <td mat-cell columnResize *matCellDef="let element">
-                <ng-container [ngSwitch]="column">
+      <table mat-table [dataSource]="dataSource" class="table-with-border" matSort
+             (matSortChange)="announceSortChange($event)">
+        <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+          <ng-container>
+            <th mat-header-cell columnResize *matHeaderCellDef mat-sort-header sortActionDescription="Sort by topic"
+                style="min-width: 150px;"> {{ column | translateHeaders }}
+            </th>
+            <td mat-cell *matCellDef="let element" (dblclick)="toggleEditMode(element, 'name')">
+              <ng-container [ngSwitch]="column">
 
-                  <ng-container *ngSwitchCase="'name'">
-                    <ng-container *ngIf="element.isEdit">
-                      <input type="text" [(ngModel)]="element.name" class="form-control"/>
-                    </ng-container>
-                    <ng-container *ngIf="!element.isEdit">
-                      {{element.name}}
-                    </ng-container>
+<!--                Назва(Input)-->
+                <ng-container *ngSwitchCase="'name'">
+                  <ng-container *ngIf="element.isEdit || element.editFieldName == 'name'; else displayName">
+                    <div class="row">
+                      <div class="col-10">
+                        <input type="text" [(ngModel)]="element.name" class="form-control"/>
+                      </div>
+                      <div class="col-2 text-center">
+                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="save(element)"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="close(element)"></i>
+                      </div>
+                    </div>
                   </ng-container>
-
-                  <ng-container *ngSwitchCase="'costs'">
-                    <ng-container *ngIf="element.isEdit">
-                      <input type="number" [(ngModel)]="element.costs" class="form-control"/>
-                    </ng-container>
+                  <ng-template #displayName>
                     <ng-container *ngIf="!element.isEdit">
-                      {{element.costs}}
+                      {{ element.name }}
                     </ng-container>
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
 
-                  <ng-container *ngSwitchCase="'symbol'">
-                    <ng-container *ngIf="element.isEdit">
-                      <input type="text" [(ngModel)]="element.symbol" class="form-control"/>
-                    </ng-container>
+<!--                Витрати (Input)-->
+                <ng-container *ngSwitchCase="'costs'">
+                  <ng-container *ngIf="element.isEdit || element.editFieldName == 'costs'; else displayCosts">
+                    <div class="row">
+                      <div class="col-10">
+                        <input type="number" [(ngModel)]="element.costs" class="form-control"/>
+                      </div>
+                      <div class="col-2 text-center">
+                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="save(element)"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="close(element)"></i>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #displayCosts>
                     <ng-container *ngIf="!element.isEdit">
-                      {{element.symbol}}
+                      {{ element.costs }}
                     </ng-container>
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
 
-                  <ng-container *ngSwitchCase="'date'">
-                    <ng-container *ngIf="element.isEdit">
-                      <mat-form-field>
-                        <mat-label>Оберіть дату</mat-label>
-                        <input matInput [matDatepicker]="picker" [(ngModel)]="element.date">
-                        <mat-hint>DD.MM.YYYY</mat-hint>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
+<!--                Позначення(Input)-->
+                <ng-container *ngSwitchCase="'symbol'">
+                  <ng-container *ngIf="element.isEdit || element.editFieldName == 'symbol'; else displaySymbol">
+                    <div class="row">
+                      <div class="col-10">
+                        <input type="text" [(ngModel)]="element.symbol" class="form-control"/>
+                      </div>
+                      <div class="col-2 text-center">
+                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="save(element)"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="close(element)"></i>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #displaySymbol>
+                    <ng-container *ngIf="!element.isEdit">
+                      {{ element.symbol }}
                     </ng-container>
+                  </ng-template>
+                </ng-container>
+
+
+                <!--             Дата (Datepicker)-->
+                <ng-container *ngSwitchCase="'date'">
+                  <ng-container *ngIf="element.isEdit || element.editFieldName == 'date'; else displayDate">
+                    <div class="row">
+                      <div class="col-10">
+                        <mat-form-field>
+                          <mat-label>Оберіть дату</mat-label>
+                          <input matInput [matDatepicker]="picker" [(ngModel)]="element.date">
+                          <mat-hint>DD.MM.YYYY</mat-hint>
+                          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-2 text-center">
+                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="save(element)"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="close(element)"></i>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #displayDate>
                     <ng-container *ngIf="!element.isEdit">
                       {{ formatDate(element.date) }}
                     </ng-container>
-                  </ng-container>
+                  </ng-template>
+                </ng-container>
 
-                  <ng-container *ngSwitchCase="'agreed'">
-                    <ng-container *ngIf="element.isEdit">
-                      <mat-radio-group aria-label="Select an option" [(ngModel)]="element.agreed">
-                        <mat-radio-button value="Погоджено">Погоджено</mat-radio-button>
-                        <mat-radio-button value="Не погоджено">Не погоджено</mat-radio-button>
-                      </mat-radio-group>
-                    </ng-container>
-                    <ng-container *ngIf="!element.isEdit">
-                      {{element.agreed}}
-                    </ng-container>
+                <!--                Погодження (Radio button)-->
+                <ng-container *ngSwitchCase="'agreed'">
+                  <ng-container *ngIf="element.isEdit || element.editFieldName == 'agreed'; else displayAgreed">
+                    <div class="row">
+                      <div class="col-10">
+                        <mat-radio-group aria-label="Select an option" [(ngModel)]="element.agreed">
+                          <mat-radio-button value="Погоджено">Погоджено</mat-radio-button>
+                          <mat-radio-button value="Не погоджено">Не погоджено</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                      <div class="col-2 text-center">
+                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="save(element)"></i>
+                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit"
+                           (click)="close(element)"></i>
+                      </div>
+                    </div>
                   </ng-container>
+                  <ng-template #displayAgreed>
+                    <ng-container *ngIf="!element.isEdit">
+                      {{ element.agreed }}
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
 
-                  <ng-container *ngSwitchCase="'edit'">
-                    <ng-container *ngIf="element.isEdit">
-                      <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="element.isEdit=false">Оновити</button>
-                      <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="cancelEdit(element)">Закрити</button>
-                    </ng-container>
-                    <ng-container *ngIf="!element.isEdit">
-                      <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="editElement(element)">Редагувати</button>
-                    </ng-container>
+                <ng-container *ngSwitchCase="'edit'">
+                  <ng-container *ngIf="element.isEdit">
+                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="element.isEdit=false">
+                      Оновити
+                    </button>
+                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="cancelEdit(element)">
+                      Закрити
+                    </button>
                   </ng-container>
-                  <ng-container *ngSwitchDefault>
-                    {{element[column]}}
+                  <ng-container *ngIf="!element.isEdit">
+                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="editElement(element)">
+                      Редагувати
+                    </button>
                   </ng-container>
                 </ng-container>
-              </td>
-            </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{ element[column] }}
+                </ng-container>
+              </ng-container>
+            </td>
           </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 
-        <mat-paginator [pageSizeOptions]="[25, 50, 100]"
-                       showFirstLastButtons="true"
-                       aria-label="Select page of periodic elements">
-        </mat-paginator>
-      </div>
+      <mat-paginator [pageSizeOptions]="[25, 50, 100]"
+                     showFirstLastButtons="true"
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
   </div>
 </main>
 
@@ -114,7 +189,8 @@
           <p>ЛІЦЕНЗІЯ НБУ №84 ВІД 25.10.2011</p>
           <p>2012 - 2032 © ТАСКОМБАНК</p>
         </div>
-        <a href="https://sportbank.ua/"><img class="sportbank-logo" style="margin-bottom: 1px" [src]="'assets/images/sportbank_logo-xs.png'" alt="image"></a>
+        <a href="https://sportbank.ua/"><img class="sportbank-logo" style="margin-bottom: 1px"
+                                             [src]="'assets/images/sportbank_logo-xs.png'" alt="image"></a>
         <a href="https://izibank.com.ua/"><img class="izibank-logo" [src]="'assets/images/izibank.png'"></a>
         <a href="https://www.fg.gov.ua/"><img class="fund-logo" [src]="'assets/images/fund.png'"></a>
         <div class="funds">
