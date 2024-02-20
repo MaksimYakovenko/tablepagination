@@ -14,12 +14,13 @@ import {OverlayContainer} from "@angular/cdk/overlay";
 import {NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatInputModule} from "@angular/material/input";
-import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
+import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from "@angular/material/core";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatRadioModule} from "@angular/material/radio";
 import {CommonModule} from "@angular/common";
 import {pipe} from "rxjs";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
+import {MatSelect} from "@angular/material/select";
 
 
 @Component({
@@ -42,7 +43,7 @@ import {TranslateHeadersPipe} from "./translate-headers.pipe";
     MatInputModule,
     MatFormFieldModule,
     MatRadioModule,
-    CommonModule, TranslateHeadersPipe
+    CommonModule, TranslateHeadersPipe, MatSelect, MatOption
   ],
   templateUrl: './tablepagination.component.html',
   styleUrl: './tablepagination.component.css',
@@ -100,6 +101,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.dataSource.sort = this.sort;
   }
 
+
   editElement(element: any) {
     this.originalElements[element.id] = {...element};
     element.isEdit = true;
@@ -113,18 +115,11 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
   }
 
-  toggleEditMode(element: any, field: string) {
-    element.isEdit = field;
+  toggleEditMode(item: any, field: string) {
+    item.editFieldName = field;
   }
 
 
-  onEdit(item: any) {
-    item.editFieldName = item;
-}
-
-  updateAgreedStatus(event: any, element: PeriodicElement) {
-    element.agreed = event.value;
-  }
 
   cancelEdit(element: any) {
     const originalElement = this.originalElements[element.id];
@@ -132,8 +127,11 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     element.isEdit = false;
   }
 
-  save(item: any) {
-    item.editFieldName = '';
+  save(element: any) {
+    if (!element.saved) {
+      element.editFieldName = element.originalValue;
+    }
+    element.isEdit = false;
   }
 
   close(element: any) {
