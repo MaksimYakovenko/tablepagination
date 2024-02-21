@@ -59,8 +59,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   originalElements: any[] = [];
   element: any;
   column: any;
-  inputFilterValue: string = '';
-  selectFilterValue: string = 'all';
+  startDate!: Date;
+  endDate!: Date;
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
@@ -121,16 +121,25 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       this.filteredDataSource = this.dataSource;
     } else {
       const filteredData = this.dataSource.data.filter(item =>
-        item.name.toLowerCase().includes(filterValue.toLowerCase()) ||
-        item.costs.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
-        item.symbol.toLowerCase().includes(filterValue.toLowerCase()) ||
-        item.date.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
-        item.agreed.toLowerCase().includes(filterValue.toLowerCase())
+        item.agreed.toLowerCase() === filterValue.toLowerCase()
       );
       this.filteredDataSource = new MatTableDataSource(filteredData);
     }
     this.applyFilters();
   }
+
+  // applyDateRangeFilter(startDate: Date, endDate: Date) {
+  //   if (!startDate || !endDate) {
+  //     return;
+  //   }
+  //   const filteredData = this.dataSource.data.filter(item => {
+  //     const itemDate = new Date(item.date);
+  //     return itemDate >= startDate && itemDate <= endDate;
+  //   });
+  //   this.filteredDataSource = new MatTableDataSource(filteredData);
+  //   this.filteredDataSource.paginator = this.paginator;
+  //   this.applyFilters();
+  // }
 
   applyFilters() {
     this.filteredDataSource.paginator = this.paginator;
@@ -193,7 +202,6 @@ export interface PeriodicElement {
   agreed: string;
   isEdit: false;
   editFieldName: '';
-  created: Date;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
@@ -210,6 +218,5 @@ for (let i = 1; i <= 2000; i++) {
     agreed: agreedStatus,
     isEdit: false,
     editFieldName: '',
-    created: new Date(),
   });
 }
