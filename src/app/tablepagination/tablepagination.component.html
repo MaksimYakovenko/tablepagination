@@ -13,14 +13,48 @@
   </mat-toolbar>
 </header>
 
-<mat-form-field>
-  <mat-label>Погодження</mat-label>
-  <mat-select>
 
-  </mat-select>
-</mat-form-field>
 
 <main>
+  <mat-form-field>
+    <mat-label>Фільтр</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Element 1" #input>
+  </mat-form-field>
+
+<!--  <mat-form-field style="margin-left: 30px">-->
+<!--    <mat-label>Погодження</mat-label>-->
+<!--    <mat-select (selectionChange)="applySelectFilter($event.value)">-->
+<!--      <mat-option value="all">Всі</mat-option>-->
+<!--      <mat-option value="Погоджено">Погоджено</mat-option>-->
+<!--      <mat-option value="Не погоджено">Не погоджено</mat-option>-->
+<!--    </mat-select>-->
+<!--  </mat-form-field>-->
+
+<!--  <form class="date-block" [formGroup]="filterForm">-->
+<!--    <div class="date-block__list">-->
+<!--      <mat-form-field>-->
+<!--        <input matInput-->
+<!--               [matDatepicker]="fromDate"-->
+<!--               placeholder="Початкова Дата"-->
+<!--               formControlName="fromDate">-->
+<!--        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>-->
+<!--        <mat-datepicker #fromDate></mat-datepicker>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+<!--    <div class="date-block__list">-->
+<!--      <mat-form-field>-->
+<!--        <input matInput-->
+<!--               [matDatepicker]="toDate"-->
+<!--               placeholder="Кінцева Дата"-->
+<!--               formControlName="toDate">-->
+<!--        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>-->
+<!--        <mat-datepicker #toDate></mat-datepicker>-->
+<!--      </mat-form-field>-->
+<!--    </div>-->
+<!--    <button mat-button color="primary" class="primary" (click)="applyFilter()">Submit</button>-->
+<!--  </form>-->
+
+
   <div class="table-container">
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" class="table-with-border" matSort
@@ -179,6 +213,9 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">Немає даних, що відповідають фільтру "{{input.value}}"</td>
+        </tr>
       </table>
 
       <mat-paginator [pageSizeOptions]="[25, 50, 100]"

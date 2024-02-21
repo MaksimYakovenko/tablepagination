@@ -9,7 +9,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatIcon} from "@angular/material/icon";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -21,7 +21,6 @@ import {CommonModule} from "@angular/common";
 import {pipe} from "rxjs";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
 import {MatSelect} from "@angular/material/select";
-
 
 @Component({
   selector: 'app-tablepagination',
@@ -62,6 +61,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   column: any;
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  filteredDataSource = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   override itemsPerPageLabel = 'Заяв на сторінці';
   override firstPageLabel = 'Перша сторінка';
@@ -92,6 +92,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
         this.overlay.getContainerElement().classList.remove(this.darkClassName);
       }
     })
+
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -106,6 +107,28 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.originalElements[element.id] = {...element};
     element.isEdit = true;
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  applySelectFilter(filterValue: string) {
+    if (filterValue === 'all') {
+      this.filteredDataSource = this.dataSource;
+    } else {
+      const filteredData = this.dataSource.data.filter(item => item.agreed === filterValue);
+      this.filteredDataSource = new MatTableDataSource(filteredData);
+    }
+    this.filteredDataSource.paginator = this.paginator;
+  }
+
+
+
+
+
+
+
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -163,6 +186,7 @@ export interface PeriodicElement {
   agreed: string;
   isEdit: false;
   editFieldName: '';
+  created: Date;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [];
@@ -179,5 +203,6 @@ for (let i = 1; i <= 2000; i++) {
     agreed: agreedStatus,
     isEdit: false,
     editFieldName: '',
+    created: new Date(),
   });
 }
