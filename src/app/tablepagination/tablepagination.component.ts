@@ -59,6 +59,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   originalElements: any[] = [];
   element: any;
   column: any;
+  inputFilterValue: string = '';
+  selectFilterValue: string = 'all';
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
@@ -108,26 +110,31 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     element.isEdit = true;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyInputFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredDataSource.filter = filterValue.trim().toLowerCase();
+    this.applyFilters();
   }
 
   applySelectFilter(filterValue: string) {
     if (filterValue === 'all') {
       this.filteredDataSource = this.dataSource;
     } else {
-      const filteredData = this.dataSource.data.filter(item => item.agreed === filterValue);
+      const filteredData = this.dataSource.data.filter(item =>
+        item.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+        item.costs.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
+        item.symbol.toLowerCase().includes(filterValue.toLowerCase()) ||
+        item.date.toString().toLowerCase().includes(filterValue.toLowerCase()) ||
+        item.agreed.toLowerCase().includes(filterValue.toLowerCase())
+      );
       this.filteredDataSource = new MatTableDataSource(filteredData);
     }
-    this.filteredDataSource.paginator = this.paginator;
+    this.applyFilters();
   }
 
-
-
-
-
-
+  applyFilters() {
+    this.filteredDataSource.paginator = this.paginator;
+  }
 
 
   formatDate(dateString: string): string {

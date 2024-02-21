@@ -18,17 +18,17 @@
 <main>
   <mat-form-field>
     <mat-label>Фільтр</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Element 1" #input>
+    <input matInput (keyup)="applyInputFilter($event)" placeholder="Element 1" #input>
   </mat-form-field>
 
-<!--  <mat-form-field style="margin-left: 30px">-->
-<!--    <mat-label>Погодження</mat-label>-->
-<!--    <mat-select (selectionChange)="applySelectFilter($event.value)">-->
-<!--      <mat-option value="all">Всі</mat-option>-->
-<!--      <mat-option value="Погоджено">Погоджено</mat-option>-->
-<!--      <mat-option value="Не погоджено">Не погоджено</mat-option>-->
-<!--    </mat-select>-->
-<!--  </mat-form-field>-->
+  <mat-form-field style="margin-left: 30px">
+    <mat-label>Погодження</mat-label>
+    <mat-select (selectionChange)="applySelectFilter($event.value)">
+      <mat-option value="all">Всі</mat-option>
+      <mat-option value="Погоджено">Погоджено</mat-option>
+      <mat-option value="Не погоджено">Не погоджено</mat-option>
+    </mat-select>
+  </mat-form-field>
 
 <!--  <form class="date-block" [formGroup]="filterForm">-->
 <!--    <div class="date-block__list">-->
@@ -57,7 +57,7 @@
 
   <div class="table-container">
     <div class="mat-elevation-z8">
-      <table mat-table [dataSource]="dataSource" class="table-with-border" matSort
+      <table mat-table [dataSource]="filteredDataSource" class="table-with-border" matSort
              (matSortChange)="announceSortChange($event)">
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
           <ng-container>
