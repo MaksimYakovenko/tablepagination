@@ -128,18 +128,18 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.applyFilters();
   }
 
-  // applyDateRangeFilter(startDate: Date, endDate: Date) {
-  //   if (!startDate || !endDate) {
-  //     return;
-  //   }
-  //   const filteredData = this.dataSource.data.filter(item => {
-  //     const itemDate = new Date(item.date);
-  //     return itemDate >= startDate && itemDate <= endDate;
-  //   });
-  //   this.filteredDataSource = new MatTableDataSource(filteredData);
-  //   this.filteredDataSource.paginator = this.paginator;
-  //   this.applyFilters();
-  // }
+  applyDateRangeFilter(startDate: Date, endDate: Date) {
+    if (!startDate || !endDate) {
+      return;
+    }
+    const filteredData = this.dataSource.data.filter(item => {
+      const itemDate = new Date(item.date);
+      return itemDate >= startDate && itemDate <= endDate;
+    });
+    this.filteredDataSource = new MatTableDataSource(filteredData);
+    this.filteredDataSource.paginator = this.paginator;
+    this.applyFilters();
+  }
 
   applyFilters() {
     this.filteredDataSource.paginator = this.paginator;

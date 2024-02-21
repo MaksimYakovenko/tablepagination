@@ -16,12 +16,12 @@
 
 
 <main>
-  <mat-form-field>
+  <mat-form-field style="margin-top: 20px; width: 200px">
     <mat-label>Фільтр</mat-label>
     <input matInput (keyup)="applyInputFilter($event)" placeholder="Element 1" #input>
   </mat-form-field>
 
-  <mat-form-field style="margin-left: 30px">
+  <mat-form-field style="margin-left: 30px; margin-top: 20px">
     <mat-label>Погодження</mat-label>
     <mat-select (selectionChange)="applySelectFilter($event.value)">
       <mat-option value="all">Всі</mat-option>
@@ -30,21 +30,20 @@
     </mat-select>
   </mat-form-field>
 
-<!--  <div>-->
-<!--    <mat-form-field>-->
-<!--      <mat-label>Початкова дата</mat-label>-->
-<!--      <input matInput [matDatepicker]="startDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="startDate">-->
-<!--      <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>-->
-<!--      <mat-datepicker #startDatePicker></mat-datepicker>-->
-<!--    </mat-form-field>-->
-<!--    <mat-form-field>-->
-<!--      <mat-label>Кінцева дата</mat-label>-->
-<!--      <input matInput [matDatepicker]="endDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="endDate">-->
-<!--      <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>-->
-<!--      <mat-datepicker #endDatePicker></mat-datepicker>-->
-<!--    </mat-form-field>-->
-<!--    <button mat-raised-button color="primary" (click)="applyDateRangeFilter(startDate, endDate)">Фільтрувати</button>-->
-<!--  </div>-->
+
+  <mat-form-field style="margin-left: 30px">
+    <mat-label>Початкова дата</mat-label>
+    <input matInput [matDatepicker]="startDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="startDate">
+    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #startDatePicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field style="margin-left: 30px">
+    <mat-label>Кінцева дата</mat-label>
+    <input matInput [matDatepicker]="endDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="endDate">
+    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #endDatePicker></mat-datepicker>
+  </mat-form-field>
+  <button mat-raised-button color="primary" style="margin-left: 15px; margin-top: 15px" (click)="applyDateRangeFilter(startDate, endDate)">Фільтрувати</button>
 
 <!--  <form class="date-block" [formGroup]="filterForm">-->
 <!--    <div class="date-block__list">-->
@@ -178,7 +177,9 @@
                     </ng-container>
                   </ng-template>
                 </ng-container>
+                <ng-container *ngSwitchCase="'julian'">
 
+                </ng-container>
                 <!--                Погодження (Radio button)-->
                 <ng-container *ngSwitchCase="'agreed'">
                   <ng-container *ngIf="element.isEdit || element.editFieldName == 'agreed'; else displayAgreed">
