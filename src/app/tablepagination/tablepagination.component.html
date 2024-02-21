@@ -177,9 +177,12 @@
                     </ng-container>
                   </ng-template>
                 </ng-container>
-                <ng-container *ngSwitchCase="'julian'">
 
+<!--                Юліанський календар (service)-->
+                <ng-container *ngSwitchCase="'julian'">
+                  {{ element.julian }}
                 </ng-container>
+
                 <!--                Погодження (Radio button)-->
                 <ng-container *ngSwitchCase="'agreed'">
                   <ng-container *ngIf="element.isEdit || element.editFieldName == 'agreed'; else displayAgreed">

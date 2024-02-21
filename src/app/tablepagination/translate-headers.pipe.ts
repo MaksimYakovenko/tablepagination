@@ -17,7 +17,9 @@ export class TranslateHeadersPipe implements PipeTransform {
       case 'symbol':
         return 'Позначення';
       case 'date':
-        return 'Дата';
+        return 'Григоріанський день';
+      case 'julian':
+        return 'Юліанський день';
       case 'agreed':
         return 'Погодження';
       case 'edit':

@@ -21,6 +21,7 @@ import {CommonModule} from "@angular/common";
 import {pipe} from "rxjs";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
 import {MatSelect} from "@angular/material/select";
+import {JuliancalendarService} from "./juliancalendar.service";
 
 @Component({
   selector: 'app-tablepagination',
@@ -42,7 +43,10 @@ import {MatSelect} from "@angular/material/select";
     MatInputModule,
     MatFormFieldModule,
     MatRadioModule,
-    CommonModule, TranslateHeadersPipe, MatSelect, MatOption
+    CommonModule,
+    TranslateHeadersPipe,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './tablepagination.component.html',
   styleUrl: './tablepagination.component.css',
@@ -61,7 +65,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   column: any;
   startDate!: Date;
   endDate!: Date;
-  displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'agreed', 'edit'];
+  displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -76,7 +80,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `Сторінка № ${page + 1}, рядки: ${startIndex} - ${endIndex} з ${length}`;
   }
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private overlay: OverlayContainer) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, private overlay: OverlayContainer, private julianDateService: JuliancalendarService) {
     super();
   }
 
@@ -86,6 +90,9 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   lightClassName = 'theme-light';
 
   ngOnInit() {
+    this.dataSource.data.forEach(element => {
+      element.julian = this.julianDateService.toJulianDate(element.date);
+    });
     this.toggleControl.valueChanges.subscribe((darkMode) => {
       this.className = darkMode ? this.darkClassName : this.lightClassName;
       if (darkMode) {
@@ -154,10 +161,10 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
   }
 
+
   toggleEditMode(item: any, field: string) {
     item.editFieldName = field;
   }
-
 
 
   cancelEdit(element: any) {
@@ -199,6 +206,7 @@ export interface PeriodicElement {
   costs: number;
   symbol: string;
   date: string;
+  julian: string;
   agreed: string;
   isEdit: false;
   editFieldName: '';
@@ -215,6 +223,7 @@ for (let i = 1; i <= 2000; i++) {
     costs: Math.random() * 100,
     symbol: `El${i}`,
     date: formattedDate,
+    julian: formattedDate,
     agreed: agreedStatus,
     isEdit: false,
     editFieldName: '',
