@@ -16,7 +16,7 @@
 
 
 <main>
-  <mat-form-field style="margin-top: 20px; width: 200px">
+  <mat-form-field class="example-full-width" style="margin-top: 20px;">
     <mat-label>Фільтр</mat-label>
     <input matInput (keyup)="applyInputFilter($event)" placeholder="Element 1" #input>
   </mat-form-field>
@@ -44,31 +44,6 @@
     <mat-datepicker #endDatePicker></mat-datepicker>
   </mat-form-field>
   <button mat-raised-button color="primary" style="margin-left: 15px; margin-top: 15px" (click)="applyDateRangeFilter(startDate, endDate)">Фільтрувати</button>
-
-<!--  <form class="date-block" [formGroup]="filterForm">-->
-<!--    <div class="date-block__list">-->
-<!--      <mat-form-field>-->
-<!--        <input matInput-->
-<!--               [matDatepicker]="fromDate"-->
-<!--               placeholder="Початкова Дата"-->
-<!--               formControlName="fromDate">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #fromDate></mat-datepicker>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--    <div class="date-block__list">-->
-<!--      <mat-form-field>-->
-<!--        <input matInput-->
-<!--               [matDatepicker]="toDate"-->
-<!--               placeholder="Кінцева Дата"-->
-<!--               formControlName="toDate">-->
-<!--        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>-->
-<!--        <mat-datepicker #toDate></mat-datepicker>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--    <button mat-button color="primary" class="primary" (click)="applyFilter()">Submit</button>-->
-<!--  </form>-->
-
 
   <div class="table-container">
     <div class="mat-elevation-z8">
@@ -210,17 +185,16 @@
 
 <!--                Редагування (Select)-->
                 <ng-container *ngSwitchCase="'edit'">
-                  <ng-container *ngIf="element.isEdit">
-                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="element.isEdit=false">
-                      Оновити
-                    </button>
-                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="cancelEdit(element)">
-                      Закрити
-                    </button>
+                  <ng-container class="icon-container" *ngIf="element.isEdit">
+                    <i class="fa-solid fa-pen-nib" style="margin-right: 10px;" (click)="element.isEdit=false">
+                    </i>
+                    <i class="fa-solid fa-xmark" style="margin-right: 10px;" (click)="cancelEdit(element)">
+                    </i>
+                    <i class="fa-solid fa-trash" style="margin-right: 10px" (click)="removeData(element)"></i>
                   </ng-container>
                   <ng-container *ngIf="!element.isEdit">
                     <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="editElement(element)">
-                      Редагувати
+                      Дії
                     </button>
                   </ng-container>
                 </ng-container>

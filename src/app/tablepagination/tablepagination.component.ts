@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, numberAttribute, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSort, Sort, MatSortModule} from "@angular/material/sort";
 import {ColumnResizeDirective} from "./tablepagination.directive";
@@ -9,7 +9,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatIcon} from "@angular/material/icon";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -18,7 +18,6 @@ import {MAT_DATE_LOCALE, MatOption, provideNativeDateAdapter} from "@angular/mat
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatRadioModule} from "@angular/material/radio";
 import {CommonModule} from "@angular/common";
-import {pipe} from "rxjs";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
 import {MatSelect} from "@angular/material/select";
 import {JuliancalendarService} from "./juliancalendar.service";
@@ -68,6 +67,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
+  dataToDisplay = [...ELEMENT_DATA];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   override itemsPerPageLabel = 'Заяв на сторінці';
   override firstPageLabel = 'Перша сторінка';
@@ -105,6 +105,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   }
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatTable) table!: MatTable<PeriodicElement>
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -122,7 +123,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.filteredDataSource.filter = filterValue.trim().toLowerCase();
     this.applyFilters();
   }
-
   applySelectFilter(filterValue: string) {
     if (filterValue === 'all') {
       this.filteredDataSource = this.dataSource;
@@ -161,11 +161,13 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
   }
 
-
   toggleEditMode(item: any, field: string) {
     item.editFieldName = field;
   }
 
+  removeData(element: any) {
+    this.dataSource.data = this.dataSource.data.filter(item => item !== element);
+  }
 
   cancelEdit(element: any) {
     const originalElement = this.originalElements[element.id];
@@ -197,7 +199,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     }
   }
 
-  protected readonly pipe = pipe;
 }
 
 export interface PeriodicElement {
