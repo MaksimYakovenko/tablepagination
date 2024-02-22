@@ -23,7 +23,7 @@ export class TranslateHeadersPipe implements PipeTransform {
       case 'agreed':
         return 'Погодження';
       case 'edit':
-        return 'Редагування';
+        return 'Дії';
       default:
         return columnName
     }
