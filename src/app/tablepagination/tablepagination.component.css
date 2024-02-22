@@ -222,7 +222,7 @@ header span {
 
 
 .mat-column-id {
-  width: 50px;
+  width: 58px;
 }
 
 .mat-column-date {
@@ -243,19 +243,37 @@ table {
   width: 100%;
 }
 
-form{
-  padding-bottom: 30px;
-}
-.primary{
-  background: orange;
-  color: white;
+.icon-container {
+  display: flex;
+  align-items: center;
 }
 
-.date-block{
-  display: flex;
+.fa-solid {
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
-.date-block__list{
-  flex-basis: 150px;
-  margin-right: 15px;
+
+.fa-solid:hover {
+  color: #007bff;
 }
+
+.fa-pen-nib {
+  color: lawngreen;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.fa-trash {
+  color: red;
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.fa-xmark {
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 
