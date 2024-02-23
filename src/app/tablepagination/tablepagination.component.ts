@@ -21,6 +21,7 @@ import {CommonModule} from "@angular/common";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
 import {MatSelect} from "@angular/material/select";
 import {JuliancalendarService} from "./juliancalendar.service";
+import bootstrap from "../../main.server";
 
 @Component({
   selector: 'app-tablepagination',
@@ -67,7 +68,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
-  dataToDisplay = [...ELEMENT_DATA];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   override itemsPerPageLabel = 'Заяв на сторінці';
   override firstPageLabel = 'Перша сторінка';
@@ -116,6 +116,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   editElement(element: any) {
     this.originalElements[element.id] = {...element};
     element.isEdit = true;
+
   }
 
   applyInputFilter(event: Event) {
@@ -132,6 +133,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       );
       this.filteredDataSource = new MatTableDataSource(filteredData);
     }
+    // Присваиваем отфильтрованные данные переменной dataSource
+    this.dataSource = this.filteredDataSource;
     this.applyFilters();
   }
 
@@ -144,7 +147,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       return itemDate >= startDate && itemDate <= endDate;
     });
     this.filteredDataSource = new MatTableDataSource(filteredData);
-    this.filteredDataSource.paginator = this.paginator;
+    this.dataSource = this.filteredDataSource;
     this.applyFilters();
   }
 
@@ -163,10 +166,13 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 
   toggleEditMode(item: any, field: string) {
     item.editFieldName = field;
+    item.isEdit = true;
+    item.isChanged = true;
   }
 
   removeData(element: any) {
     this.dataSource.data = this.dataSource.data.filter(item => item !== element);
+    this.applyFilters()
   }
 
   cancelEdit(element: any) {
@@ -180,6 +186,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       element.editFieldName = element.originalValue;
     }
     element.isEdit = false;
+    element.isChanged = true;
   }
 
   close(element: any) {
@@ -187,8 +194,12 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       element.editFieldName = element.originalValue;
     }
     element.isEdit = false;
+    element.isChanged = false;
   }
 
+  isRowEdited(row: PeriodicElement): boolean {
+    return Object.values(row).some(value => typeof value === 'string' && value.endsWith('*'));
+  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -198,6 +209,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+
 
 }
 

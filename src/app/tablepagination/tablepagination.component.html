@@ -32,18 +32,16 @@
 
 
   <mat-form-field style="margin-left: 30px">
-    <mat-label>Початкова дата</mat-label>
-    <input matInput [matDatepicker]="startDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="startDate">
-    <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #startDatePicker></mat-datepicker>
+    <mat-label>Введіть діапазон дат</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Початкова дата" [(ngModel)]="startDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
+      <input matEndDate placeholder="Кінцева дата" [(ngModel)]="endDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
+    </mat-date-range-input>
+    <mat-hint>DD.MM.YYYY - DD.MM.YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
-  <mat-form-field style="margin-left: 30px">
-    <mat-label>Кінцева дата</mat-label>
-    <input matInput [matDatepicker]="endDatePicker" (dateInput)="applyFilters()" placeholder="Оберіть дату" [(ngModel)]="endDate">
-    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-    <mat-datepicker #endDatePicker></mat-datepicker>
-  </mat-form-field>
-  <button mat-raised-button color="primary" style="margin-left: 15px; margin-top: 15px" (click)="applyDateRangeFilter(startDate, endDate)">Фільтрувати</button>
+
 
   <div class="table-container">
     <div class="mat-elevation-z8">
@@ -186,16 +184,14 @@
 <!--                Редагування (Select)-->
                 <ng-container *ngSwitchCase="'edit'">
                   <ng-container class="icon-container" *ngIf="element.isEdit">
-                    <i class="fa-solid fa-pen-nib" style="margin-right: 10px;" (click)="element.isEdit=false">
+                    <i class="fa-solid fa-check" style="margin-right: 18px;" (click)="element.isEdit=false" title="Зберегти">
                     </i>
-                    <i class="fa-solid fa-xmark" style="margin-right: 10px;" (click)="cancelEdit(element)">
+                    <i class="fa-solid fa-xmark" style="margin-right: 18px;" (click)="cancelEdit(element)" title="Відміна">
                     </i>
-                    <i class="fa-solid fa-trash" style="margin-right: 10px" (click)="removeData(element)"></i>
                   </ng-container>
                   <ng-container *ngIf="!element.isEdit">
-                    <button class="btn btn-sm btn-success" style="margin-right: 10px;" (click)="editElement(element)">
-                      Дії
-                    </button>
+                    <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="editElement(element)" title="Редагувати"></i>
+                    <i class="fa-solid fa-trash" style="margin-left: 13px" (click)="removeData(element)" title="Видалити"></i>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
@@ -206,7 +202,7 @@
           </ng-container>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'green-row': isRowEdited(row)}"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">Немає даних, що відповідають фільтру "{{input.value}}"</td>
         </tr>

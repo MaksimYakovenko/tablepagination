@@ -253,14 +253,15 @@ table {
   transition: color 0.3s ease;
 }
 
-.fa-solid:hover {
-  color: #007bff;
-}
 
-.fa-pen-nib {
+.fa-check {
   color: lawngreen;
   font-size: 20px;
   cursor: pointer;
+}
+
+.fa-check:hover {
+  color: darkgreen;
 }
 
 .fa-trash {
@@ -270,10 +271,28 @@ table {
   cursor: pointer;
 }
 
+.fa-trash:hover {
+  color: darkred;
+}
+
 .fa-xmark {
   font-size: 20px;
   margin-left: 5px;
   cursor: pointer;
 }
 
+.fa-pen-to-square {
+  color: blue;
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.fa-pen-to-square:hover {
+  color: darkblue;
+}
+
+.green-row {
+  background-color: #86f386;
+}
 
