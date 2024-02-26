@@ -8,6 +8,7 @@
         <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">
         <label>Темна тема</label>
       </div>
+<!--      <button style="margin-left: 10px" mat-raised-button (click)="openEditDialog()">ДОДАТИ ЗАЯВУ</button>-->
       <a href="https://github.com/MaksimYakovenko"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -17,7 +18,7 @@
 
 <main>
   <mat-form-field class="example-full-width" style="margin-top: 20px;">
-    <mat-label>Фільтр</mat-label>
+    <mat-label class="custom-class">Фільтр</mat-label>
     <input matInput (keyup)="applyInputFilter($event)" placeholder="Element 1" #input>
   </mat-form-field>
 
@@ -31,13 +32,12 @@
   </mat-form-field>
 
 
-  <mat-form-field style="margin-left: 30px">
+  <mat-form-field style="margin-left: 30px;">
     <mat-label>Введіть діапазон дат</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input matStartDate placeholder="Початкова дата" [(ngModel)]="startDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
       <input matEndDate placeholder="Кінцева дата" [(ngModel)]="endDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
     </mat-date-range-input>
-    <mat-hint>DD.MM.YYYY - DD.MM.YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
@@ -191,7 +191,7 @@
                   </ng-container>
                   <ng-container *ngIf="!element.isEdit">
                     <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="editElement(element)" title="Редагувати"></i>
-                    <i class="fa-solid fa-trash" style="margin-left: 13px" (click)="removeData(element)" title="Видалити"></i>
+                    <i class="fa-solid fa-trash-can" style="margin-left: 13px" (click)="removeRow(element)" title="Видалити"></i>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
@@ -202,7 +202,7 @@
           </ng-container>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'green-row': isRowEdited(row)}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'edited-row': row.isEdit}"></tr>
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">Немає даних, що відповідають фільтру "{{input.value}}"</td>
         </tr>

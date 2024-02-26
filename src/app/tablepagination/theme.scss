@@ -36,6 +36,7 @@ $my-theme-dark: mat.define-dark-theme((
   }
 }
 
+
 .theme-light {
   @include mat.all-component-colors($my-theme-light);
   --even-row-bg-color: #f2f2f2;

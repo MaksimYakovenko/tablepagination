@@ -264,14 +264,14 @@ table {
   color: darkgreen;
 }
 
-.fa-trash {
+.fa-trash-can {
   color: red;
   font-size: 20px;
   margin-left: 5px;
   cursor: pointer;
 }
 
-.fa-trash:hover {
+.fa-trash-can:hover {
   color: darkred;
 }
 
@@ -292,7 +292,12 @@ table {
   color: darkblue;
 }
 
-.green-row {
-  background-color: #86f386;
+.edited-row {
+  background-color: lightgreen;
 }
+
+.custom-label {
+  margin-bottom: 30px;
+}
+
 

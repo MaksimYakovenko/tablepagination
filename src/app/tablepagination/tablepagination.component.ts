@@ -21,7 +21,8 @@ import {CommonModule} from "@angular/common";
 import {TranslateHeadersPipe} from "./translate-headers.pipe";
 import {MatSelect} from "@angular/material/select";
 import {JuliancalendarService} from "./juliancalendar.service";
-import bootstrap from "../../main.server";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteRowComponent} from "../components/delete-row/delete-row.component";
 
 @Component({
   selector: 'app-tablepagination',
@@ -63,6 +64,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   originalElements: any[] = [];
   element: any;
   column: any;
+  updatedName: string;
   startDate!: Date;
   endDate!: Date;
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
@@ -80,8 +82,9 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     return `Сторінка № ${page + 1}, рядки: ${startIndex} - ${endIndex} з ${length}`;
   }
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private overlay: OverlayContainer, private julianDateService: JuliancalendarService) {
+  constructor(private _liveAnnouncer: LiveAnnouncer, private overlay: OverlayContainer, private julianDateService: JuliancalendarService, private dialog: MatDialog) {
     super();
+    this.updatedName = '';
   }
 
   toggleControl = new FormControl(false);
@@ -110,6 +113,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.filteredDataSource.sort = this.sort;
   }
 
 
@@ -133,7 +137,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       );
       this.filteredDataSource = new MatTableDataSource(filteredData);
     }
-    // Присваиваем отфильтрованные данные переменной dataSource
     this.dataSource = this.filteredDataSource;
     this.applyFilters();
   }
@@ -151,10 +154,26 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.applyFilters();
   }
 
+  removeRow(element: any) {
+    const dialogRef = this.dialog.open(DeleteRowComponent, {
+      data: { name: element.name }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        const index = this.dataSource.data.indexOf(element);
+        if (index > -1) {
+          this.dataSource.data.splice(index, 1);
+          this.filteredDataSource = new MatTableDataSource(this.dataSource.data);
+          this.applyFilters();
+        }
+      }
+    });
+  }
+
   applyFilters() {
     this.filteredDataSource.paginator = this.paginator;
   }
-
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -166,8 +185,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 
   toggleEditMode(item: any, field: string) {
     item.editFieldName = field;
-    item.isEdit = true;
-    item.isChanged = true;
   }
 
   removeData(element: any) {
@@ -197,9 +214,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     element.isChanged = false;
   }
 
-  isRowEdited(row: PeriodicElement): boolean {
-    return Object.values(row).some(value => typeof value === 'string' && value.endsWith('*'));
-  }
 
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
