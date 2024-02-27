@@ -8,7 +8,7 @@
         <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">
         <label>Темна тема</label>
       </div>
-<!--      <button style="margin-left: 10px" mat-raised-button (click)="openEditDialog()">ДОДАТИ ЗАЯВУ</button>-->
+      <button style="margin-left: 10px" mat-raised-button>ДОДАТИ ЗАЯВУ</button>
       <a href="https://github.com/MaksimYakovenko"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
     </mat-toolbar-row>
   </mat-toolbar>
@@ -190,7 +190,7 @@
                     </i>
                   </ng-container>
                   <ng-container *ngIf="!element.isEdit">
-                    <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="editElement(element)" title="Редагувати"></i>
+                    <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="openEditDialog(element)" title="Редагувати"></i>
                     <i class="fa-solid fa-trash-can" style="margin-left: 13px" (click)="removeRow(element)" title="Видалити"></i>
                   </ng-container>
                 </ng-container>

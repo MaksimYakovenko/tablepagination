@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostBinding, numberAttribute, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -23,6 +23,8 @@ import {MatSelect} from "@angular/material/select";
 import {JuliancalendarService} from "./juliancalendar.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteRowComponent} from "../components/delete-row/delete-row.component";
+import {EditRowComponent} from "../components/edit-row/edit-row.component";
+import {AddRowComponent} from "../components/add-row/add-row.component";
 
 @Component({
   selector: 'app-tablepagination',
@@ -117,17 +119,18 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   }
 
 
-  editElement(element: any) {
-    this.originalElements[element.id] = {...element};
-    element.isEdit = true;
-
-  }
+  // editElement(element: any) {
+  //   this.originalElements[element.id] = {...element};
+  //   element.isEdit = true;
+  //
+  // }
 
   applyInputFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
     this.filteredDataSource.filter = filterValue.trim().toLowerCase();
     this.applyFilters();
   }
+
   applySelectFilter(filterValue: string) {
     if (filterValue === 'all') {
       this.filteredDataSource = this.dataSource;
@@ -156,7 +159,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 
   removeRow(element: any) {
     const dialogRef = this.dialog.open(DeleteRowComponent, {
-      data: { name: element.name }
+      data: {name: element.name}
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -166,6 +169,32 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
           this.dataSource.data.splice(index, 1);
           this.filteredDataSource = new MatTableDataSource(this.dataSource.data);
           this.applyFilters();
+        }
+      }
+    });
+  }
+
+  openEditDialog(row: any): void {
+    const dialogRef = this.dialog.open(EditRowComponent, {
+      width: '450px',
+      data: {name: row.name, costs: row.costs, symbol: row.symbol, date: row.date, agreed: row.agreed}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if (result.name) {
+          row.name = result.name;
+        }
+        if (result.costs) {
+          row.costs = result.costs;
+        }
+        if (result.symbol) {
+          row.symbol = result.symbol;
+        }
+        if (result.date) {
+          row.date = result.date;
+        }
+        if (result.agreed) {
+          row.agreed = result.agreed;
         }
       }
     });
@@ -223,7 +252,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-
 
 
 }

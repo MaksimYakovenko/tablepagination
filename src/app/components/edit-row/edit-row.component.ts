@@ -1,12 +1,72 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
+import {MatDialogActions, MatDialogContent, MatDialogTitle, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
+import {MatFormField} from "@angular/material/form-field";
+import {FormGroup, FormBuilder, FormsModule, Validators} from "@angular/forms";
+import {MatInput, MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle, MatDatepickerModule} from "@angular/material/datepicker";
+import {MatSelect} from "@angular/material/select";
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
+import {MatNativeDateModule, provideNativeDateAdapter} from "@angular/material/core";
+import {MAT_DATE_LOCALE} from "@angular/material/core";
+
 
 @Component({
   selector: 'app-edit-row',
   standalone: true,
-  imports: [],
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+    MatFormField,
+    MatInput,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerModule,
+    MatSelect,
+    MatRadioGroup,
+    MatRadioButton,
+    MatNativeDateModule
+  ],
   templateUrl: './edit-row.component.html',
-  styleUrl: './edit-row.component.css'
+  styleUrl: './edit-row.component.css',
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'uk'},
+    [provideNativeDateAdapter()],
+  ],
 })
 export class EditRowComponent {
-
+  editForm: FormGroup;
+  constructor(
+    public dialogRef: MatDialogRef<EditRowComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder
+  ) {
+    this.editForm = this.formBuilder.group({
+      name: [data.name, Validators.required],
+      costs: [data.costs, Validators.required],
+      symbol: [data.symbol, Validators.required],
+      date: [data.date, Validators.required],
+      agreed: [data.agreed, Validators.required]
+    });
+  }
+  onSave(): void {
+    if (this.editForm.valid) {
+      const editedData = {
+        name: this.editForm.value.name,
+        costs: this.editForm.value.costs,
+        symbol: this.editForm.value.symbol,
+        date: this.editForm.value.date,
+        agreed: this.editForm.value.agreed
+      };
+      this.dialogRef.close(editedData);
+    }
+  }
 }

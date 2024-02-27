@@ -1,10 +1,10 @@
 <div mat-dialog-title>
-  <h5>Видалення заяви</h5>
+  <h4>Видалення заяви</h4>
 </div>
 <mat-dialog-content>
   <p>Ви впевнені, що хочете видалити заяву <strong>{{ data.name }}</strong>?</p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="warn" (click)="confirmDelete()">Так</button>
-  <button mat-button [mat-dialog-close]="false">Ні</button>
+  <button mat-raised-button style="width: 210px" color="warn" (click)="confirmDelete()">Так</button>
+  <button mat-button style="width: 210px" [mat-dialog-close]="false">Ні</button>
 </mat-dialog-actions>

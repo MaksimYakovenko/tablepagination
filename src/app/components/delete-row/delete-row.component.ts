@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
-  MatDialog,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -27,10 +26,6 @@ export class DeleteRowComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { name: string }, private dialogRef: MatDialogRef<DeleteRowComponent>) {}
   confirmDelete(): void {
     this.dialogRef.close(true);
-  }
-
-  cancelDelete(): void {
-    this.dialogRef.close(false);
   }
 
 }
