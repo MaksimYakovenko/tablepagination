@@ -4,43 +4,52 @@
       <a href="/"><img class="toolbar-logo" [src]="'assets/images/logo.png'" alt="image"></a>
       <span class="toolbar-name">Максим Яковенко</span>
       <span class="spacer"></span>
-      <div class="theme-toggle-container">
-        <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">
-        <label>Темна тема</label>
+<!--      <div class="theme-toggle-container">-->
+<!--        <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">-->
+<!--        <label>Темна тема</label>-->
+<!--      </div>-->
+      <div class="switch">
+        <input type="checkbox" class="switch__input" id="Switch" [formControl]="toggleControl">
+        <label class="switch__label" for="Switch">
+          <span class="switch__indicator"></span>
+          <span class="switch__decoration"></span>
+        </label>
       </div>
-      <button style="margin-left: 10px" mat-raised-button>ДОДАТИ ЗАЯВУ</button>
-      <a href="https://github.com/MaksimYakovenko"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
+      <a href="https://github.com/MaksimYakovenko" style="text-decoration: none"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
     </mat-toolbar-row>
   </mat-toolbar>
 </header>
 
 
-
 <main>
-  <mat-form-field class="example-full-width" style="margin-top: 20px;">
-    <mat-label class="custom-class">Фільтр</mat-label>
-    <input matInput (keyup)="applyInputFilter($event)" placeholder="Element 1" #input>
-  </mat-form-field>
+  <div style="display: flex; align-items: center;">
+    <mat-form-field class="example-full-width" style="margin-top: 20px; margin-left: 30px; height: 73px;">
+      <mat-label class="custom-class">Фільтр</mat-label>
+      <input matInput style="height: 50px" placeholder="Element 1" (keyup)="applyInputFilter($event)" #input>
+    </mat-form-field>
 
-  <mat-form-field style="margin-left: 30px; margin-top: 20px">
-    <mat-label>Погодження</mat-label>
-    <mat-select (selectionChange)="applySelectFilter($event.value)">
-      <mat-option value="all">Всі</mat-option>
-      <mat-option value="Погоджено">Погоджено</mat-option>
-      <mat-option value="Не погоджено">Не погоджено</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field style="margin-left: 30px; height: 73px; margin-top: 20px" class="agreed">
+      <mat-label>Погодження</mat-label>
+      <mat-select style="height: 30px" (selectionChange)="applySelectFilter($event.value)">
+        <mat-option value="all">Всі</mat-option>
+        <mat-option value="Погоджено">Погоджено</mat-option>
+        <mat-option value="Не погоджено">Не погоджено</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-
-  <mat-form-field style="margin-left: 30px;">
-    <mat-label>Введіть діапазон дат</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Початкова дата" [(ngModel)]="startDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
-      <input matEndDate placeholder="Кінцева дата" [(ngModel)]="endDate" (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+    <mat-form-field style="margin-left: 30px; height: 73px; margin-top: 20px">
+      <mat-label>Введіть діапазон дат</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Початкова дата" [(ngModel)]="startDate"
+               (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
+        <input matEndDate placeholder="Кінцева дата" [(ngModel)]="endDate"
+               (ngModelChange)="applyDateRangeFilter(startDate, endDate)">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <button style="height: 40px; margin-left: auto; margin-right: 30px;" mat-raised-button (click)="openAddDialog()">ДОДАТИ ЗАЯВУ</button>
+  </div>
 
 
   <div class="table-container">
@@ -50,22 +59,27 @@
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
           <ng-container>
             <th mat-header-cell columnResize *matHeaderCellDef mat-sort-header sortActionDescription="Sort by topic"
-                style="min-width: 150px;"> {{ column | translateHeaders }}
+                style="min-width: 150px"> {{ column | translateHeaders }}
             </th>
             <td mat-cell *matCellDef="let element" (dblclick)="toggleEditMode(element, column)">
               <ng-container [ngSwitch]="column">
 
-<!--                Назва(Input)-->
+                <!--                Назва(Input)-->
                 <ng-container *ngSwitchCase="'name'">
                   <ng-container *ngIf="element.isEdit || element.editFieldName == 'name'; else displayName">
                     <div class="row">
                       <div class="col-10">
-                        <input type="text" [(ngModel)]="element.name" class="form-control"/>
+                        <mat-form-field>
+                          <mat-label>Назва заяви</mat-label>
+                          <input matInput style="height: 50px" type="text" [(ngModel)]="element.name">
+                        </mat-form-field>
                       </div>
                       <div class="col-2 text-center">
-                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-check" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="save(element)"></i>
-                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-xmark" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="close(element)"></i>
                       </div>
                     </div>
@@ -77,17 +91,22 @@
                   </ng-template>
                 </ng-container>
 
-<!--                Витрати (Input)-->
+                <!--                Витрати (Input)-->
                 <ng-container *ngSwitchCase="'costs'">
                   <ng-container *ngIf="element.isEdit || element.editFieldName == 'costs'; else displayCosts">
                     <div class="row">
                       <div class="col-10">
-                        <input type="number" [(ngModel)]="element.costs" class="form-control"/>
+                        <mat-form-field>
+                          <mat-label>Витрати</mat-label>
+                          <input style="height: 50px" matInput type="number" [(ngModel)]="element.costs">
+                        </mat-form-field>
                       </div>
                       <div class="col-2 text-center">
-                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
-                           (click)="save(element)"></i>
-                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-check" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
+                           (click)="save(element)" title="Зберегти"></i>
+                        <i class="fa-solid fa-xmark" title="Відхилити" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="close(element)"></i>
                       </div>
                     </div>
@@ -99,17 +118,22 @@
                   </ng-template>
                 </ng-container>
 
-<!--                Позначення(Input)-->
+                <!--                Позначення(Input)-->
                 <ng-container *ngSwitchCase="'symbol'">
                   <ng-container *ngIf="element.isEdit || element.editFieldName == 'symbol'; else displaySymbol">
                     <div class="row">
                       <div class="col-10">
-                        <input type="text" [(ngModel)]="element.symbol" class="form-control"/>
+                        <mat-form-field>
+                          <mat-label>Позначення</mat-label>
+                          <input matInput style="height: 50px" type="text" [(ngModel)]="element.symbol">
+                        </mat-form-field>
                       </div>
                       <div class="col-2 text-center">
-                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-check" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="save(element)"></i>
-                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-xmark" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="close(element)"></i>
                       </div>
 
@@ -117,7 +141,7 @@
                   </ng-container>
                   <ng-template #displaySymbol>
                     <ng-container *ngIf="!element.isEdit">
-                     {{ element.symbol }}
+                      {{ element.symbol }}
                     </ng-container>
                   </ng-template>
                 </ng-container>
@@ -130,16 +154,18 @@
                       <div class="col-10">
                         <mat-form-field>
                           <mat-label>Оберіть дату</mat-label>
-                          <input matInput [matDatepicker]="picker" [(ngModel)]="element.date">
+                          <input style="height: 50px" matInput [matDatepicker]="picker" [(ngModel)]="element.date">
                           <mat-hint>DD.MM.YYYY</mat-hint>
                           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                       </div>
                       <div class="col-2 text-center">
-                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-check" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="save(element)"></i>
-                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-xmark" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="close(element)"></i>
                       </div>
                     </div>
@@ -151,7 +177,7 @@
                   </ng-template>
                 </ng-container>
 
-<!--                Юліанський календар (service)-->
+                <!--                Юліанський календар (service)-->
                 <ng-container *ngSwitchCase="'julian'">
                   {{ element.julian }}
                 </ng-container>
@@ -167,9 +193,11 @@
                         </mat-radio-group>
                       </div>
                       <div class="col-2 text-center">
-                        <i class="fa-solid fa-check" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-check" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="save(element)"></i>
-                        <i class="fa-solid fa-xmark" aria-hidden="true" *ngIf="!element.isEdit || element.editFieldName == column"
+                        <i class="fa-solid fa-xmark" aria-hidden="true"
+                           *ngIf="!element.isEdit || element.editFieldName == column"
                            (click)="close(element)"></i>
                       </div>
                     </div>
@@ -181,17 +209,21 @@
                   </ng-template>
                 </ng-container>
 
-<!--                Редагування (Select)-->
+                <!--                Редагування (Select)-->
                 <ng-container *ngSwitchCase="'edit'">
                   <ng-container class="icon-container" *ngIf="element.isEdit">
-                    <i class="fa-solid fa-check" style="margin-right: 18px;" (click)="element.isEdit=false" title="Зберегти">
+                    <i class="fa-solid fa-check" style="margin-right: 18px;" (click)="element.isEdit=false"
+                       title="Зберегти">
                     </i>
-                    <i class="fa-solid fa-xmark" style="margin-right: 18px;" (click)="cancelEdit(element)" title="Відміна">
+                    <i class="fa-solid fa-xmark" style="margin-right: 18px;" (click)="cancelEdit(element)"
+                       title="Відміна">
                     </i>
                   </ng-container>
                   <ng-container *ngIf="!element.isEdit">
-                    <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="openEditDialog(element)" title="Редагувати"></i>
-                    <i class="fa-solid fa-trash-can" style="margin-left: 13px" (click)="removeRow(element)" title="Видалити"></i>
+                    <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;" (click)="openEditDialog(element)"
+                       title="Редагувати"></i>
+                    <i class="fa-solid fa-trash-can" style="margin-left: 13px" (click)="removeRow(element)"
+                       title="Видалити"></i>
                   </ng-container>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
@@ -202,9 +234,9 @@
           </ng-container>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'edited-row': row.isEdit}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">Немає даних, що відповідають фільтру "{{input.value}}"</td>
+          <td class="mat-cell" colspan="4">Немає даних, що відповідають фільтру "{{ input.value }}"</td>
         </tr>
       </table>
 
@@ -235,10 +267,10 @@
         </div>
       </div>
       <div class="footer-contact-info">
-        <p>АТ «ТАСКОМБАНК»</p>
-        <p>01032, м. Київ, вул. Симона Петлюри, буд. 30</p>
-        <p>0 800 503 580 (безкоштовно з усіх телефонів)</p>
-        <p>044 393 25 90 (згідно з тарифами Вашого оператора зв'язку)</p>
+        <p style="color: #e9e9e9">АТ «ТАСКОМБАНК»</p>
+        <p style="color: #e9e9e9">01032, м. Київ, вул. Симона Петлюри, буд. 30</p>
+        <p style="color: #e9e9e9">0 800 503 580 (безкоштовно з усіх телефонів)</p>
+        <p style="color: #e9e9e9">044 393 25 90 (згідно з тарифами Вашого оператора зв'язку)</p>
       </div>
       <ul class="footer-social-links">
         <li class="flex">
@@ -259,7 +291,7 @@
       </ul>
       <hr>
       <br/>
-      <small>ТАСКОМБАНК - РАЗОМ ЗМОЖЕМО ВСЕ!</small>
+      <small style="color: #e9e9e9">ТАСКОМБАНК - РАЗОМ ЗМОЖЕМО ВСЕ!</small>
     </div>
   </div>
 </footer>

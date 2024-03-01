@@ -10,6 +10,7 @@ import {MatSelect} from "@angular/material/select";
 import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatNativeDateModule, provideNativeDateAdapter} from "@angular/material/core";
 import {MAT_DATE_LOCALE} from "@angular/material/core";
+import {NgClass} from "@angular/common";
 
 
 @Component({
@@ -33,7 +34,8 @@ import {MAT_DATE_LOCALE} from "@angular/material/core";
     MatSelect,
     MatRadioGroup,
     MatRadioButton,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgClass
   ],
   templateUrl: './edit-row.component.html',
   styleUrl: './edit-row.component.css',
@@ -44,6 +46,7 @@ import {MAT_DATE_LOCALE} from "@angular/material/core";
 })
 export class EditRowComponent {
   editForm: FormGroup;
+  editedRow: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<EditRowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -56,6 +59,10 @@ export class EditRowComponent {
       date: [data.date, Validators.required],
       agreed: [data.agreed, Validators.required]
     });
+    // this.editForm.get('date').valueChanges.subscribe((value: Date) => {
+    //   const julianDate = this.toJulianDate(value);
+    //   this.editForm.patchValue({ julianDate });
+    // });
   }
   onSave(): void {
     if (this.editForm.valid) {
@@ -67,6 +74,7 @@ export class EditRowComponent {
         agreed: this.editForm.value.agreed
       };
       this.dialogRef.close(editedData);
+      this.editedRow = true;
     }
   }
 }

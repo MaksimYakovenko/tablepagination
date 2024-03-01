@@ -1,62 +1,72 @@
-import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import { Component, Inject, OnInit } from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {MAT_DATE_LOCALE, MatNativeDateModule, provideNativeDateAdapter} from "@angular/material/core";
 import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatInput} from "@angular/material/input";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatButton} from "@angular/material/button";
-import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
-import {MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-add-row',
+  templateUrl: './add-row.component.html',
+  styleUrls: ['./add-row.component.css'],
   standalone: true,
   imports: [
-    MatDialogTitle,
     MatDialogContent,
-    ReactiveFormsModule,
     MatFormField,
-    MatInput,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatSuffix,
-    MatDatepicker,
-    MatButton,
-    MatDialogActions,
     MatLabel,
+    MatRadioGroup,
     MatRadioButton,
-    MatRadioGroup
+    MatDialogActions,
+    MatDialogClose,
+    MatInput,
+    MatDatepickerToggle,
+    MatDatepicker,
+    MatDatepickerInput,
+    ReactiveFormsModule,
+    MatDialogTitle,
+    MatButton,
+    MatNativeDateModule,
+    MatSuffix
   ],
-  templateUrl: './add-row.component.html',
-  styleUrl: './add-row.component.css',
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'uk'},
     [provideNativeDateAdapter()]
   ]
 })
-export class AddRowComponent {
-  addForm: FormGroup;
+export class AddRowComponent implements OnInit {
+  addForm!: FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<AddRowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     this.addForm = this.formBuilder.group({
-      name: [data.name, Validators.required],
-      costs: [data.costs, Validators.required],
-      symbol: [data.symbol, Validators.required],
-      date: [data.date, Validators.required],
-      julian: [data.julian, Validators.required],
-      agreed: [data.date, Validators.required]
+      name: [this.data?.name || '', Validators.required],
+      costs: [this.data?.costs || '', Validators.required],
+      symbol: [this.data?.symbol || '', Validators.required],
+      date: [this.data?.date || '', Validators.required],
+      julian: [this.data?.julian || '', Validators.required],
+      agreed: [this.data?.agreed || '', Validators.required]
     });
   }
 
   onSave(): void {
     if (this.addForm.valid) {
-      const addForm = {
-        name: this.
+      const addData = {
+        name: this.addForm.value.name,
+        costs: this.addForm.value.costs,
+        symbol: this.addForm.value.symbol,
+        date: this.addForm.value.date,
+        julian: this.addForm.value.julian,
+        agreed: this.addForm.value.agreed
       };
+      this.dialogRef.close(addData);
     }
   }
-
 }

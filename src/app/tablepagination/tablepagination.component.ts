@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -9,7 +9,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatIcon} from "@angular/material/icon";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -65,13 +65,13 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   title = 'tablepagination';
   originalElements: any[] = [];
   element: any;
-  column: any;
   updatedName: string;
   startDate!: Date;
   endDate!: Date;
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   override itemsPerPageLabel = 'Заяв на сторінці';
   override firstPageLabel = 'Перша сторінка';
@@ -106,7 +106,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
         this.overlay.getContainerElement().classList.remove(this.darkClassName);
       }
     })
-
+  this.filteredDataSource = this.dataSource;
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -140,7 +140,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
       );
       this.filteredDataSource = new MatTableDataSource(filteredData);
     }
-    this.dataSource = this.filteredDataSource;
+    // this.dataSource = this.filteredDataSource;
     this.applyFilters();
   }
 
@@ -177,7 +177,12 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   openEditDialog(row: any): void {
     const dialogRef = this.dialog.open(EditRowComponent, {
       width: '450px',
-      data: {name: row.name, costs: row.costs, symbol: row.symbol, date: row.date, agreed: row.agreed}
+      data: {
+        name: row.name,
+        costs: row.costs,
+        symbol: row.symbol,
+        date: row.date,
+        agreed: row.agreed}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -200,8 +205,23 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     });
   }
 
+  openAddDialog(): void {
+    const dialogRef = this.dialog.open(AddRowComponent, {
+      width: '450px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataSource.data.push(result);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    });
+  }
+
   applyFilters() {
     this.filteredDataSource.paginator = this.paginator;
+    this.filteredDataSource.sort = this.sort;
   }
 
   formatDate(dateString: string): string {
@@ -214,11 +234,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 
   toggleEditMode(item: any, field: string) {
     item.editFieldName = field;
-  }
-
-  removeData(element: any) {
-    this.dataSource.data = this.dataSource.data.filter(item => item !== element);
-    this.applyFilters()
   }
 
   cancelEdit(element: any) {
@@ -275,9 +290,9 @@ for (let i = 1; i <= 2000; i++) {
   const agreedStatus = Math.random() > 0.5 ? 'Погоджено' : 'Не погоджено';
   ELEMENT_DATA.push({
     id: i,
-    name: `Element ${i}`,
+    name: `Заява №${i}`,
     costs: Math.random() * 100,
-    symbol: `El${i}`,
+    symbol: `Заяв${i}`,
     date: formattedDate,
     julian: formattedDate,
     agreed: agreedStatus,

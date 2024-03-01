@@ -3,7 +3,24 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-/*.mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label {*/
-/*  margin-top: 50px;*/
-/*}*/
+.mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label {
+  margin-top: 20px;
+}
+
+.mat-date-range-input-mirror {
+  margin-bottom: 30px;
+}
+
+mat-mdc-select-min-line ng-tns-c2643520907-2 ng-star-inserted {
+  margin-top: -30px;
+}
+
+.mat-mdc-select-value {
+  margin-top: 15px;
+}
+
+.mat-mdc-text-field-wrapper mdc-text-field mdc-text-field--outlined mdc-text-field--no-label mdc-text-field--focused {
+  margin-top: -15px;
+}
+
 

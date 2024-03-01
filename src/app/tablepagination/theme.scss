@@ -31,9 +31,35 @@ $my-theme-dark: mat.define-dark-theme((
   @include mat.all-component-colors($my-theme-dark);
   --even-row-bg-color: #373737;
   --odd-row-bg-color: #282828;
-  header mat-toolbar {
-    background-color: #9c27b0 !important;
+  main {
+    background-color: #373737;
   }
+  .mat-toolbar-row {
+    background-image: linear-gradient(90deg, rgb(117, 49, 89), rgb(51, 51, 102));
+  }
+  .mdc-label {
+    color: #fff;
+  }
+  .mdc-radio__native-control {
+    background-color: #fff;
+  }
+  .mdc-radio__inner-circle {
+    background-color: rgb(76, 175, 80);
+  }
+  h1 {
+    color: #fff;
+  }
+  h5 {
+    color: #fff;
+  }
+
+  p {
+    color: #fff;
+  }
+  mat-icon {
+    color: #fff;
+  }
+
 }
 
 

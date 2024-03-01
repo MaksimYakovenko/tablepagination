@@ -1,0 +1,21 @@
+<h1>Вхід в систему</h1>
+<!--@if (errorMessage) {-->
+<!--  <div>{{errorMessage}}</div>-->
+<!--}-->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <mat-form-field>
+      <mat-label>Електронна адреса</mat-label>
+      <input matInput placeholder="Електронна адреса" type="email" formControlName="email"/>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Пароль</mat-label>
+      <input matInput placeholder="Пароль" type="password" formControlName="password"/>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" type="submit">Вхід</button>
+  </div>
+</form>

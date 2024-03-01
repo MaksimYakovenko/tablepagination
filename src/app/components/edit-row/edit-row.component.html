@@ -3,29 +3,28 @@
 </div>
 <mat-dialog-content>
   <form [formGroup]="editForm">
-
     <div class="row">
       <mat-form-field>
         <mat-label>Назва заяви</mat-label>
-        <input matInput formControlName="name">
+        <input style="height: 50px" matInput formControlName="name">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Витрати</mat-label>
-        <input matInput type="number" formControlName="costs">
+        <input style="height: 50px" matInput type="number" formControlName="costs">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field>
         <mat-label>Позначення</mat-label>
-        <input matInput type="text" formControlName="symbol">
+        <input style="height: 50px"  matInput type="text" formControlName="symbol">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field>
         <mat-label>Дата створення</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date">
+        <input style="height: 50px" matInput [matDatepicker]="picker" formControlName="date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -42,6 +41,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-raised-button color="primary" style="width: 204px" (click)="onSave()">Зберегти</button>
-  <button mat-raised-button style="width: 204px" [mat-dialog-close]="false">Відміна</button>
+  <button mat-raised-button color="primary" style="width: 204px; height: 40px" (click)="onSave()">Зберегти</button>
+  <button mat-raised-button style="width: 204px; height: 40px" [mat-dialog-close]="false">Відміна</button>
 </mat-dialog-actions>
