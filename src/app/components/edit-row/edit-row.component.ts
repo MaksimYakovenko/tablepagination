@@ -11,6 +11,7 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatNativeDateModule, provideNativeDateAdapter} from "@angular/material/core";
 import {MAT_DATE_LOCALE} from "@angular/material/core";
 import {NgClass} from "@angular/common";
+import {JuliancalendarService} from "../../tablepagination/juliancalendar.service";
 
 
 @Component({
@@ -50,20 +51,27 @@ export class EditRowComponent {
   constructor(
     public dialogRef: MatDialogRef<EditRowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private julianCalendarService: JuliancalendarService,
   ) {
     this.editForm = this.formBuilder.group({
       name: [data.name, Validators.required],
       costs: [data.costs, Validators.required],
       symbol: [data.symbol, Validators.required],
       date: [data.date, Validators.required],
+      julian: [data.julian, Validators.required],
       agreed: [data.agreed, Validators.required]
     });
-    // this.editForm.get('date').valueChanges.subscribe((value: Date) => {
-    //   const julianDate = this.toJulianDate(value);
-    //   this.editForm.patchValue({ julianDate });
-    // });
   }
+
+  updateJulianDate(): void {
+    const selectedDate = this.editForm.value.date;
+    if (selectedDate) {
+      const julianDate = this.julianCalendarService.toJulianDate(selectedDate);
+      this.editForm.patchValue({ julian: julianDate });
+    }
+  }
+
   onSave(): void {
     if (this.editForm.valid) {
       const editedData = {
@@ -71,6 +79,7 @@ export class EditRowComponent {
         costs: this.editForm.value.costs,
         symbol: this.editForm.value.symbol,
         date: this.editForm.value.date,
+        julian: this.editForm.value.julian,
         agreed: this.editForm.value.agreed
       };
       this.dialogRef.close(editedData);

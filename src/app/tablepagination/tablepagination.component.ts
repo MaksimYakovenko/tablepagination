@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -9,7 +9,7 @@ import {LiveAnnouncer} from "@angular/cdk/a11y";
 import {MatIcon} from "@angular/material/icon";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {OverlayContainer} from "@angular/cdk/overlay";
 import {NgIf} from "@angular/common";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -118,13 +118,6 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     this.filteredDataSource.sort = this.sort;
   }
 
-
-  // editElement(element: any) {
-  //   this.originalElements[element.id] = {...element};
-  //   element.isEdit = true;
-  //
-  // }
-
   applyInputFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value.toLowerCase();
     this.filteredDataSource.filter = filterValue.trim().toLowerCase();
@@ -212,6 +205,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        result.id = this.getNextAvailableId();
         this.dataSource.data.push(result);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -250,6 +244,10 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
     element.isChanged = true;
   }
 
+  getNextAvailableId(): number {
+    return this.dataSource.data.length > 0 ? this.dataSource.data[this.dataSource.data.length - 1].id! + 1 : 1;
+  }
+
   close(element: any) {
     if (!element.saved) {
       element.editFieldName = element.originalValue;
@@ -272,8 +270,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
 }
 
 export interface PeriodicElement {
+  id?: number;
   name: string;
-  id: number;
   costs: number;
   symbol: string;
   date: string;

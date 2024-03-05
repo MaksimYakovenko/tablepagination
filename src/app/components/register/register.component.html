@@ -22,11 +22,6 @@
 <main>
   <br/><br/><br/><br/><br/><br/>
   <h1>Реєстрація</h1>
-
-  @if (errorMessage) {
-    <div>{{errorMessage}}</div>
-  }
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div>
       <mat-form-field>
@@ -48,29 +43,31 @@
         <input style="height: 50px" matInput [type]="hide ? 'password' : 'text'" placeholder="Пароль"
                formControlName="password" title="Активна кнопка">
         <mat-icon matSuffix (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-        <!-- Используем иконку из Material Icons -->
       </mat-form-field>
     </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Підтвердіть пароль</mat-label>
-          <input style="height: 50px" matInput type="password" placeholder="Підтвердіть пароль" formControlName="confirm">
-          <mat-icon matSuffix>lock</mat-icon>
-        </mat-form-field>
-      </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Підтвердіть пароль</mat-label>
+        <input style="height: 50px" type="password" matInput formControlName="confirm">
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+    </div>
+    <div *ngIf="form.hasError('passwordMismatch') && form.get('confirm')?.touched" class="alert alert-danger">
+      Паролі не збігаються.
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
     <div>
       <button type="submit" [disabled]="form.invalid">Зареєструватися</button>
     </div>
+    <br/>
+    <p style="align-items: center; margin-left: 100px">Вже маєте обліковий запис?</p>
   </form>
   <br><br>
 
   <footer class="bg-light text-center text-lg-start">
-    <!-- Grid container -->
     <main>
       <div class="container p-4">
-        <!--Grid row-->
         <div class="row">
-          <!--Grid column-->
           <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
             <h5 class="text-uppercase">КОНТАКТНА ІНФОРМАЦІЯ</h5>
             <p>

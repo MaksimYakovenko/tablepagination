@@ -3,21 +3,27 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
-import {HttpClient, provideHttpClient, withFetch} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {Router} from "express";
 import {AuthService} from "../../tablepagination/auth.service";
+import {FIREBASE_OPTIONS} from "@angular/fire/compat";
+import {environment} from "@ng-bootstrap/ng-bootstrap/environment";
+
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-
+  // providers: [
+  //   {provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig}
+  // ],
   imports: [
     ReactiveFormsModule,
     MatFormField,
     MatInput,
     MatButton,
     MatInputModule,
+    HttpClientModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

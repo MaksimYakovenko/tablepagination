@@ -7,6 +7,8 @@ import {MatRadioButton, MatRadioGroup} from "@angular/material/radio";
 import {MatInput} from "@angular/material/input";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatButton} from "@angular/material/button";
+import {JuliancalendarService} from "../../tablepagination/juliancalendar.service";
+
 
 @Component({
   selector: 'app-add-row',
@@ -38,11 +40,11 @@ import {MatButton} from "@angular/material/button";
 })
 export class AddRowComponent implements OnInit {
   addForm!: FormGroup;
-
   constructor(
     public dialogRef: MatDialogRef<AddRowComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private julianCalendarService: JuliancalendarService,
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +56,14 @@ export class AddRowComponent implements OnInit {
       julian: [this.data?.julian || '', Validators.required],
       agreed: [this.data?.agreed || '', Validators.required]
     });
+  }
+
+  updateJulianDate(): void {
+    const selectedDate = this.addForm.value.date;
+    if (selectedDate) {
+      const julianDate = this.julianCalendarService.toJulianDate(selectedDate);
+      this.addForm.patchValue({julian: julianDate});
+    }
   }
 
   onSave(): void {

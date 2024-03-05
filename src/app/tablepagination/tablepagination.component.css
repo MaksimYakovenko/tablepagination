@@ -517,3 +517,10 @@ header span {
   font-size: 23px;
   font-family: "Times New Roman", serif;
 }
+
+.sticky-header {
+  position: sticky;
+  top: 104px;
+  z-index: 1000;
+  background-color: white;
+}

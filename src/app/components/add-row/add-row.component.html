@@ -25,25 +25,19 @@
     <div class="row">
       <mat-form-field>
         <mat-label>Дата створення</mat-label>
-        <input style="height: 50px" matInput [matDatepicker]="picker" formControlName="date">
+        <input style="height: 50px" matInput [matDatepicker]="picker" formControlName="date" (dateChange)="updateJulianDate()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
 
-<!--    <div class="row">-->
-<!--      <mat-form-field>-->
-<!--        <mat-label>Юліанський календар</mat-label>-->
-<!--        <input style="height: 50px" matInput type="number" formControlName="julian">-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
-<!--    <div class="row">-->
-<!--      <mat-radio-group aria-label="Select an option" formControlName="agreed">-->
-<!--        <mat-label><strong>Погодження:</strong></mat-label>-->
-<!--        <mat-radio-button value="Погоджено">Погоджено</mat-radio-button>-->
-<!--        <mat-radio-button value="Не погоджено">Не погоджено</mat-radio-button>-->
-<!--      </mat-radio-group>-->
-<!--    </div>-->
+    <div class="row">
+      <mat-radio-group aria-label="Select an option" formControlName="agreed">
+        <mat-label><strong>Погодження:</strong></mat-label>
+        <mat-radio-button value="Погоджено">Погоджено</mat-radio-button>
+        <mat-radio-button value="Не погоджено">Не погоджено</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
   </form>
 </mat-dialog-content>

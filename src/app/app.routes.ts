@@ -6,5 +6,5 @@ import {LoginComponent} from "./components/login/login.component";
 export const routes: Routes = [
   {component: TablepaginationComponent, path: ''},
   {component: RegisterComponent, path: 'register'},
-  {component: LoginComponent, path: 'login'}
+  // {component: LoginComponent, path: 'login'}
 ]
