@@ -1,21 +1,97 @@
 <h1>Вхід в систему</h1>
-<!--@if (errorMessage) {-->
-<!--  <div>{{errorMessage}}</div>-->
-<!--}-->
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <mat-form-field>
-      <mat-label>Електронна адреса</mat-label>
-      <input matInput placeholder="Електронна адреса" type="email" formControlName="email"/>
-    </mat-form-field>
+
+<header>
+  <mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <img class="toolbar-logo" [src]="'assets/images/logo.png'" alt="image">
+      <span class="spacer"></span>
+      <div class="switch">
+        <input type="checkbox" class="switch__input" id="Switch" [formControl]="toggleControl">
+        <label class="switch__label" for="Switch">
+          <span class="switch__indicator"></span>
+          <span class="switch__decoration"></span>
+        </label>
+      </div>
+      <a href="https://github.com/MaksimYakovenko" style="text-decoration: none"><span class="github-icon"><i
+        class="fa-brands fa-github"></i> Github</span></a>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</header>
+<main>
+  <br/><br/><br/><br/>
+  <h1>Вхід в систему</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field>
+        <mat-label>Електронна адреса</mat-label>
+        <input style="height: 50px" matInput placeholder="Електронна адреса" type="email" formControlName="email"/>
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Пароль</mat-label>
+        <input style="height: 50px" matInput placeholder="Пароль" type="password" formControlName="password"/>
+        <mat-icon title="Активна кнопка" matSuffix (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </mat-form-field>
+    </div>
+    <div>
+      <button type="submit">Вхід</button>
+    </div>
+    <br/>
+    <p
+      style="align-items: center; margin-left: 44px; margin-top: -5px; font-size: 16px; font-family: Arial, sans-serif;">
+      Немає облікового запису?
+      <a routerLink="/register" style="text-decoration: none; color: dodgerblue">
+        Зареєструватися
+      </a>
+    </p>
+  </form>
+  <br><br>
+</main>
+<footer class="bg-light text-center text-lg-start">
+  <main>
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <h5 class="text-uppercase">КОНТАКТНА ІНФОРМАЦІЯ</h5>
+          <p>
+            <i class="fa-solid fa-building"></i> АТ «ТАСКОМБАНК» <br/>
+            <i class="fa-solid fa-map-location"></i> 01032, м. Київ, вул. Симона Петлюри, буд. 30 <br/>
+            <i class="fa-solid fa-phone-volume"></i> 0 800 503 580 (безкоштовно з усіх телефонів) <br/>
+            <i class="fa-solid fa-phone"></i> 044 393 25 90 (згідно з тарифами Вашого оператора зв'язку)
+          </p>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <h5 class="text-uppercase">НАШІ ПАРТНЕРИ</h5>
+          <div class="row">
+            <div class="col-6">
+              <a href="https://izibank.com.ua/">
+                <img class="izibank-logo img-fluid" src="assets/images/izibank.png" alt="IZI Bank Logo"
+                     style="height: 70px">
+              </a>
+            </div>
+            <div class="col-6">
+              <a href="https://sportbank.ua/">
+                <img class="sportbank-logo" style="margin-bottom: 1px"
+                     [src]="'assets/images/sportbank_logo-xs.png'" alt="image">
+              </a>
+            </div>
+            <div class="col-6">
+              <a href="https://www.fg.gov.ua/">
+                <img class="fund-logo" [src]="'assets/images/fund.png'" style="height: 40px;">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="text-center p-3"
+       style="background-image: linear-gradient(90deg, rgb(117, 49, 89), rgb(51, 51, 102)); color: #fff">
+    ТАСКОМБАНК - РАЗОМ ЗМОЖЕМО ВСЕ
   </div>
-  <div>
-    <mat-form-field>
-      <mat-label>Пароль</mat-label>
-      <input matInput placeholder="Пароль" type="password" formControlName="password"/>
-    </mat-form-field>
-  </div>
-  <div>
-    <button mat-raised-button color="primary" type="submit">Вхід</button>
-  </div>
-</form>
+</footer>

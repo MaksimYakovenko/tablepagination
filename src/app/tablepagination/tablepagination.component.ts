@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, HostBinding, OnInit, ViewChild} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {AfterViewInit, Component, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -25,6 +25,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteRowComponent} from "../components/delete-row/delete-row.component";
 import {EditRowComponent} from "../components/edit-row/edit-row.component";
 import {AddRowComponent} from "../components/add-row/add-row.component";
+import {AuthService} from "./auth.service";
 
 @Component({
   selector: 'app-tablepagination',
@@ -49,7 +50,7 @@ import {AddRowComponent} from "../components/add-row/add-row.component";
     CommonModule,
     TranslateHeadersPipe,
     MatSelect,
-    MatOption
+    MatOption, RouterLink
   ],
   templateUrl: './tablepagination.component.html',
   styleUrl: './tablepagination.component.css',
@@ -68,6 +69,7 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   updatedName: string;
   startDate!: Date;
   endDate!: Date;
+  authService = inject(AuthService);
   displayedColumns: string[] = ['id', 'name', 'costs', 'symbol', 'date', 'julian', 'agreed', 'edit'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   filteredDataSource = new MatTableDataSource<PeriodicElement>();
@@ -94,7 +96,18 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
   darkClassName = 'theme-dark';
   lightClassName = 'theme-light';
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      if (user) {
+        this.authService.currentUserSig.set({
+          email: user.email!,
+          username: user.displayName!,
+        });
+      } else {
+        this.authService.currentUserSig.set(null);
+      }
+      console.log(this.authService.currentUserSig())
+    });
     this.dataSource.data.forEach(element => {
       element.julian = this.julianDateService.toJulianDate(element.date);
     });
@@ -106,7 +119,10 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
         this.overlay.getContainerElement().classList.remove(this.darkClassName);
       }
     })
-  this.filteredDataSource = this.dataSource;
+    this.filteredDataSource = this.dataSource;
+  }
+  logout(): void {
+    this.authService.logout();
   }
 
   @ViewChild(MatSort) sort!: MatSort;
@@ -175,7 +191,8 @@ export class TablepaginationComponent extends MatPaginatorIntl implements AfterV
         costs: row.costs,
         symbol: row.symbol,
         date: row.date,
-        agreed: row.agreed}
+        agreed: row.agreed
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

@@ -41,8 +41,8 @@
       <mat-form-field>
         <mat-label>Пароль</mat-label>
         <input style="height: 50px" matInput [type]="hide ? 'password' : 'text'" placeholder="Пароль"
-               formControlName="password" title="Активна кнопка">
-        <mat-icon matSuffix (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+               formControlName="password">
+        <mat-icon title="Активна кнопка" matSuffix (click)="hide = !hide">{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </mat-form-field>
     </div>
     <div>
@@ -60,53 +60,59 @@
       <button type="submit" [disabled]="form.invalid">Зареєструватися</button>
     </div>
     <br/>
-    <p style="align-items: center; margin-left: 100px">Вже маєте обліковий запис?</p>
+    <p
+      style="align-items: center; margin-left: 75px; margin-top: -5px; font-size: 16px; font-family: Arial, sans-serif;">
+      Вже маєте обліковий запис?
+      <a routerLink="/login" style="text-decoration: none; color: dodgerblue">
+        Вхід
+      </a>
+    </p>
   </form>
   <br><br>
+</main>
+<footer class="bg-light text-center text-lg-start">
+  <main>
+    <div class="container p-4">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <h5 class="text-uppercase">КОНТАКТНА ІНФОРМАЦІЯ</h5>
+          <p>
+            <i class="fa-solid fa-building"></i> АТ «ТАСКОМБАНК» <br/>
+            <i class="fa-solid fa-map-location"></i> 01032, м. Київ, вул. Симона Петлюри, буд. 30 <br/>
+            <i class="fa-solid fa-phone-volume"></i> 0 800 503 580 (безкоштовно з усіх телефонів) <br/>
+            <i class="fa-solid fa-phone"></i> 044 393 25 90 (згідно з тарифами Вашого оператора зв'язку)
+          </p>
+        </div>
+        <!--Grid column-->
 
-  <footer class="bg-light text-center text-lg-start">
-    <main>
-      <div class="container p-4">
-        <div class="row">
-          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-            <h5 class="text-uppercase">КОНТАКТНА ІНФОРМАЦІЯ</h5>
-            <p>
-              <i class="fa-solid fa-building"></i> АТ «ТАСКОМБАНК» <br/>
-              <i class="fa-solid fa-map-location"></i> 01032, м. Київ, вул. Симона Петлюри, буд. 30 <br/>
-              <i class="fa-solid fa-phone-volume"></i> 0 800 503 580 (безкоштовно з усіх телефонів) <br/>
-              <i class="fa-solid fa-phone"></i> 044 393 25 90 (згідно з тарифами Вашого оператора зв'язку)
-            </p>
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-            <h5 class="text-uppercase">НАШІ ПАРТНЕРИ</h5>
-            <div class="row">
-              <div class="col-6">
-                <a href="https://izibank.com.ua/">
-                  <img class="izibank-logo img-fluid" src="assets/images/izibank.png" alt="IZI Bank Logo"
-                       style="height: 70px">
-                </a>
-              </div>
-              <div class="col-6">
-                <a href="https://sportbank.ua/">
-                  <img class="sportbank-logo" style="margin-bottom: 1px"
-                       [src]="'assets/images/sportbank_logo-xs.png'" alt="image">
-                </a>
-              </div>
-              <div class="col-6">
-                <a href="https://www.fg.gov.ua/">
-                  <img class="fund-logo" [src]="'assets/images/fund.png'" style="height: 40px;">
-                </a>
-              </div>
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <h5 class="text-uppercase">НАШІ ПАРТНЕРИ</h5>
+          <div class="row">
+            <div class="col-6">
+              <a href="https://izibank.com.ua/">
+                <img class="izibank-logo img-fluid" src="assets/images/izibank.png" alt="IZI Bank Logo"
+                     style="height: 70px">
+              </a>
+            </div>
+            <div class="col-6">
+              <a href="https://sportbank.ua/">
+                <img class="sportbank-logo" style="margin-bottom: 1px"
+                     [src]="'assets/images/sportbank_logo-xs.png'" alt="image">
+              </a>
+            </div>
+            <div class="col-6">
+              <a href="https://www.fg.gov.ua/">
+                <img class="fund-logo" [src]="'assets/images/fund.png'" style="height: 40px;">
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </main>
-    <div class="text-center p-3"
-         style="background-image: linear-gradient(90deg, rgb(117, 49, 89), rgb(51, 51, 102)); color: #fff">
-      ТАСКОМБАНК - РАЗОМ ЗМОЖЕМО ВСЕ
     </div>
-  </footer>
+  </main>
+  <div class="text-center p-3"
+       style="background-image: linear-gradient(90deg, rgb(117, 49, 89), rgb(51, 51, 102)); color: #fff">
+    ТАСКОМБАНК - РАЗОМ ЗМОЖЕМО ВСЕ
+  </div>
+</footer>

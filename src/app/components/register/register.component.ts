@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModul
 import {MatFormField} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {AuthService} from "../../tablepagination/auth.service";
 import {raw} from "express";
 import {MatIcon} from "@angular/material/icon";
@@ -29,6 +29,7 @@ function passwordMatchValidator(control: AbstractControl): { [key: string]: bool
     MatToolbar,
     MatToolbarRow,
     NgIf,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'

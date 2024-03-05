@@ -2,12 +2,8 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <a href="/"><img class="toolbar-logo" [src]="'assets/images/logo.png'" alt="image"></a>
-      <span class="toolbar-name">Максим Яковенко</span>
+      <span class="toolbar-name">{{ this.authService.currentUserSig()?.username}}</span>
       <span class="spacer"></span>
-<!--      <div class="theme-toggle-container">-->
-<!--        <input id="themeSwitcher" class="ThemeToggle" type="checkbox" [formControl]="toggleControl">-->
-<!--        <label>Темна тема</label>-->
-<!--      </div>-->
       <div class="switch">
         <input type="checkbox" class="switch__input" id="Switch" [formControl]="toggleControl">
         <label class="switch__label" for="Switch">
@@ -15,7 +11,8 @@
           <span class="switch__decoration"></span>
         </label>
       </div>
-      <a href="https://github.com/MaksimYakovenko" style="text-decoration: none"><span class="github-icon"><i class="fa-brands fa-github"></i> Github</span></a>
+      <a href="https://github.com/MaksimYakovenko" style="text-decoration: none"><span class="github-icon"><i
+        class="fa-brands fa-github"></i> Github</span></a>
     </mat-toolbar-row>
   </mat-toolbar>
 </header>
@@ -48,9 +45,19 @@
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-    <button style="height: 40px; margin-left: auto; margin-right: 30px;" mat-raised-button (click)="openAddDialog()">ДОДАТИ ЗАЯВУ</button>
+    @if (authService.currentUserSig() == null) {
+      <div style="display: flex; margin-left: 280px">
+        <button style="height: 40px; margin-right: 12px;" mat-raised-button routerLink="/login">ВХІД</button>
+        <button style="height: 40px;" mat-raised-button routerLink="/register">ЗАРЕЄСТРУВАТИСЯ</button>
+      </div>
+    }
+    @if (authService.currentUserSig()) {
+      <button style="height: 40px; margin-left: 450px;" mat-raised-button (click)="logout()">ВИЙТИ</button>
+    }
+    <button style="height: 40px; margin-left: auto; margin-right: 30px;" mat-raised-button (click)="openAddDialog()">
+      ДОДАТИ ЗАЯВУ
+    </button>
   </div>
-
 
   <div class="table-container">
     <div class="mat-elevation-z8">
