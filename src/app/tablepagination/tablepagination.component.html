@@ -2,7 +2,7 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <a href="/"><img class="toolbar-logo" [src]="'assets/images/logo.png'" alt="image"></a>
-      <span class="toolbar-name">{{ this.authService.currentUserSig()?.username}}</span>
+      <span class="toolbar-name">{{ this.authService.currentUserSig()?.username }}</span>
       <span class="spacer"></span>
       <div class="switch">
         <input type="checkbox" class="switch__input" id="Switch" [formControl]="toggleControl">
